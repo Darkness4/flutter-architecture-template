@@ -1,0 +1,84 @@
+on: push
+name: Test, Build and Release APK and AAB
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Java 12
+      uses: actions/setup-java@master
+      with:
+        java-version: '12.x'
+    - name: Flutter action
+      uses: subosito/flutter-action@master
+      with:
+        channel: 'dev'
+    - run: flutter pub get
+    - run: flutter test --coverage
+    - run: sudo apt update
+    - name: Install LCOV
+      run: sudo apt install -y lcov
+    - run: genhtml -o coverage coverage/lcov.info
+    - name: Archive Coverage
+      uses: actions/upload-artifact@master
+      with:
+        name: coverage
+        path: coverage
+    - name: Deploy coverage
+      uses: JamesIves/github-pages-deploy-action@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BASE_BRANCH: develop
+        BRANCH: gh-pages
+        FOLDER: coverage
+  apk-build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Java 12
+      uses: actions/setup-java@master
+      with:
+        java-version: '12.x'
+    - name: Flutter action
+      uses: subosito/flutter-action@master
+      with:
+        channel: 'dev'
+    - run: echo ${{ secrets.RELEASE_KEYSTORE_BASE64 }} | base64 -d > android/app/keystore.jks
+    - run: echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+    - run: echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+    - run: echo "keyAlias=${{ secrets.ALIAS }}" >> android/key.properties
+    - run: echo "storeFile=keystore.jks" >> android/key.properties
+    - run: flutter pub get
+    - run: flutter build apk --release --split-per-abi
+    - name: Archive APK
+      uses: actions/upload-artifact@master
+      with:
+        name: release-apks
+        path: build/app/outputs/apk/release
+  aab-build:
+    name: Build AAB
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Java 12
+      uses: actions/setup-java@master
+      with:
+        java-version: '12.x'
+    - name: Flutter action
+      uses: subosito/flutter-action@master
+      with:
+        channel: 'dev'
+    - run: echo ${{ secrets.RELEASE_KEYSTORE_BASE64 }} | base64 -d > android/app/keystore.jks
+    - run: echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+    - run: echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+    - run: echo "keyAlias=${{ secrets.ALIAS }}" >> android/key.properties
+    - run: echo "storeFile=keystore.jks" >> android/key.properties
+    - run: flutter pub get
+    - run: flutter build appbundle --release
+    - name: Archive AAB
+      uses: actions/upload-artifact@master
+      with:
+        name: release-aab
+        path: build/app/outputs/bundle/release

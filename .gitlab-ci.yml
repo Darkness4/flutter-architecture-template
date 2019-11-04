@@ -1,0 +1,143 @@
+stages:
+  - test
+  # - integration-tests
+  - build
+  - deploy
+
+unit-tests:
+  stage: test
+  image: darkness4/flutter-builder:29-dev
+
+  before_script:
+    - /bin/sh ./.ci-scripts/before_script_get_deps_coverage.sh
+
+  script:
+    - flutter test --verbose --coverage
+
+  after_script:
+    - genhtml -o coverage coverage/lcov.info
+
+  artifacts:
+    paths:
+    - coverage/
+
+# navigation_test:
+#   stage: integration-tests
+#   image: darkness4/flutter-builder:28
+
+#   before_script:
+#     - /bin/sh ./.ci-scripts/before_script_get_deps_emulator.sh
+#     - /bin/sed -iEn "s/_webhook = \"ZXhlbXBsZQ==\"/_webhook = \"${CI_WEBHOOK_KEY}\"/g" ./lib/core/constants/api_constants.dart
+#     - /bin/sed -iEn "s/_facebookApi = \"ZXhlbXBsZQ==\"/_facebookApi = \"${CI_FACEBOOK_KEY}\"/g" ./lib/core/constants/api_constants.dart
+#     - /bin/bash ./.ci-scripts/before_script_integration_tests.sh
+
+#   script:
+#     - flutter drive --verbose --target=test_driver/app.dart --driver=test_driver/navigation_test.dart
+
+#   after_script:
+#     - /bin/bash ./.ci-scripts/stop-emulator
+
+#   tags:
+#     - android
+
+#   artifacts:
+#     paths:
+#     - test_driver/screenshots/
+
+pages:
+  stage: deploy
+  image: ruby:latest
+  dependencies:
+    - unit-tests
+
+  # before_script:
+  #   - gem install coveralls-lcov
+  #   - "echo \"repo_token: ${COVERALLS_TOKEN}\" > .coveralls.yml"
+
+  script:
+    # - coveralls-lcov ./coverage/lcov.info
+    - mv coverage/ public/
+
+  artifacts:
+    paths:
+      - public
+
+  only:
+  - master
+  - develop
+
+build-test:
+  stage: test
+  image: darkness4/flutter-builder:29-dev
+
+  before_script:
+    - /bin/sh ./.ci-scripts/before_script_get_deps_build.sh
+    - echo ${RELEASE_KEYSTORE_BASE64} | base64 -d > android/app/keystore.jks
+    - echo "storePassword=${KEYSTORE_PASSWORD}" > android/key.properties
+    - echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
+    - echo "keyAlias=${ALIAS}" >> android/key.properties
+    - echo "storeFile=keystore.jks" >> android/key.properties
+
+  script:
+    - flutter build apk --verbose --target-platform android-arm --split-per-abi
+
+  except:
+  - master
+  - develop
+  - tests
+
+build-apk:
+  stage: build
+  image: darkness4/flutter-builder:29-dev
+  
+  before_script:
+    - /bin/sh ./.ci-scripts/before_script_get_deps_build.sh
+    - echo ${RELEASE_KEYSTORE_BASE64} | base64 -d > android/app/keystore.jks
+    - echo "storePassword=${KEYSTORE_PASSWORD}" > android/key.properties
+    - echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
+    - echo "keyAlias=${ALIAS}" >> android/key.properties
+    - echo "storeFile=keystore.jks" >> android/key.properties
+
+  script:
+    - flutter build apk --verbose --target-platform android-arm,android-arm64 --split-per-abi
+
+  after_script:
+    - mv build/app/outputs/apk/release/app-armeabi-v7a-release.apk .
+    - mv build/app/outputs/apk/release/app-arm64-v8a-release.apk .
+
+  artifacts:
+    paths:
+      - app-armeabi-v7a-release.apk
+      - app-arm64-v8a-release.apk
+    expire_in: 1 week
+
+  only:
+    - master
+    - develop
+
+build-aab:
+  stage: build
+  image: darkness4/flutter-builder:29-master
+  
+  before_script:
+    - /bin/sh ./.ci-scripts/before_script_get_deps_build.sh
+    - echo ${RELEASE_KEYSTORE_BASE64} | base64 -d > android/app/keystore.jks
+    - echo "storePassword=${KEYSTORE_PASSWORD}" > android/key.properties
+    - echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
+    - echo "keyAlias=${ALIAS}" >> android/key.properties
+    - echo "storeFile=keystore.jks" >> android/key.properties
+
+  script:
+    - flutter build appbundle --verbose --target-platform android-arm,android-arm64
+
+  after_script:
+    - mv build/app/outputs/bundle/release/app-release.aab .
+
+  artifacts:
+    paths:
+      - app-release.aab
+    expire_in: 1 week
+
+  only:
+    - master
+    - develop
