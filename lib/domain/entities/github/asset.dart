@@ -1,3 +1,15 @@
+/// Github Asset
+///
+/// C'est ici qu'on stocke les données uniquement nécéssaire à la logique du
+/// logiciel.
+///
+/// Il est possible qu'un entity existe mais n'a pas de data source.
+/// Par exemple, une classe Monstre n'a pas besoin de source mais doit
+/// être présent dans le dossier entities.
+///
+/// [GithubAsset] représente un asset d'après la documentation de
+/// Github API.
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 

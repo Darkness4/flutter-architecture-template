@@ -1,20 +1,20 @@
+import 'package:flutter_architecture_template/domain/usecases/get_github_releases.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/domain/repositories/releases_repository.dart';
 import 'package:flutter_architecture_template/presentation/blocs/github_releases/bloc.dart';
 
 void main() {
   GithubReleasesBloc bloc;
-  MockReleasesRepository mockRepository;
+  MockGetGithubReleases mockGetGithubReleases;
 
   setUp(() {
-    mockRepository = MockReleasesRepository();
+    mockGetGithubReleases = MockGetGithubReleases();
 
-    bloc = GithubReleasesBloc(repository: mockRepository);
+    bloc = GithubReleasesBloc(getGithubReleases: mockGetGithubReleases);
   });
 
   test('initialState should be GithubReleasesStateInitial', () {
@@ -105,13 +105,13 @@ void main() {
       'should get data from the concrete use case',
       () async {
         // arrange
-        when(mockRepository.getReleases(any))
+        when(mockGetGithubReleases(any))
             .thenAnswer((_) async => tListGithubRelease);
         // act
         bloc.add(const GetReleasesEvent(tRepo));
-        await untilCalled(mockRepository.getReleases(any));
+        await untilCalled(mockGetGithubReleases(any));
         // assert
-        verify(mockRepository.getReleases(tRepo));
+        verify(mockGetGithubReleases(const Params(tRepo)));
         bloc.close();
       },
     );
@@ -120,7 +120,7 @@ void main() {
       'should emit [GithubReleasesStateLoading, GithubReleasesStateLoaded] when data is gotten successfully',
       () async {
         // arrange
-        when(mockRepository.getReleases(any))
+        when(mockGetGithubReleases(any))
             .thenAnswer((_) async => tListGithubRelease);
         // assert later
         final expected = [
@@ -140,7 +140,7 @@ void main() {
       'should emit [GithubReleasesStateLoading, GithubReleasesStateError] when getting data fails',
       () async {
         // arrange
-        when(mockRepository.getReleases(any)).thenThrow(ServerException());
+        when(mockGetGithubReleases(any)).thenThrow(ServerException());
         // assert later
         final expected = [
           const GithubReleasesStateInitial(),
@@ -159,7 +159,7 @@ void main() {
       'should emit [GithubReleasesStateLoading, GithubReleasesStateError] with a proper message for the error when getting data fails',
       () async {
         // arrange
-        when(mockRepository.getReleases(any)).thenThrow(CacheException());
+        when(mockGetGithubReleases(any)).thenThrow(CacheException());
         // assert later
         final expected = [
           const GithubReleasesStateInitial(),
@@ -176,4 +176,4 @@ void main() {
   });
 }
 
-class MockReleasesRepository extends Mock implements ReleasesRepository {}
+class MockGetGithubReleases extends Mock implements GetGithubReleases {}

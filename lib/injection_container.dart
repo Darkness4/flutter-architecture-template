@@ -1,4 +1,6 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter_architecture_template/domain/usecases/get_github_releases.dart';
+import 'package:flutter_architecture_template/domain/usecases/get_github_user.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_architecture_template/core/network/network_info.dart';
@@ -18,13 +20,19 @@ Future<void> init() async {
   // Bloc
   sl.registerFactory(
     () => GithubReleasesBloc(
-      repository: sl<ReleasesRepository>(),
+      getGithubReleases: sl<GetGithubReleases>(),
     ),
   );
-  sl.registerFactory(
-    () => GithubUserBloc(
-      repository: sl<UserRepository>(),
-    ),
+  sl.registerFactory(() => GithubUserBloc(
+        getGithubUser: sl<GetGithubUser>(),
+      ));
+
+  // Use cases
+  sl.registerLazySingleton(
+    () => GetGithubUser(sl<UserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetGithubReleases(sl<ReleasesRepository>()),
   );
 
   // Repository
@@ -52,7 +60,8 @@ Future<void> init() async {
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(
-      () => NetworkInfoImpl(sl<Connectivity>()));
+    () => NetworkInfoImpl(sl<Connectivity>()),
+  );
 
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();

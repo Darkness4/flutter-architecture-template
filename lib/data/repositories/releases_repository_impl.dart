@@ -1,3 +1,11 @@
+/// Releases Repository Implementation
+///
+/// Après stocké les données dans un model, ce model doit être accessible peu
+/// importe la source de données. C'est ce que l'on appelle un repository.
+///
+/// [ReleasesRepositoryImpl] est l'implémentation du [ReleasesRepository].
+///
+/// Le [ReleasesRepositoryImpl] possède 2 sources de données.
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_architecture_template/core/network/network_info.dart';
 import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';

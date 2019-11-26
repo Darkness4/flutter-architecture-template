@@ -1,3 +1,10 @@
+/// Github Local Data Source
+///
+/// C'est ici que vous récupérez les données local de Github socké sur le
+/// téléphone.
+///
+/// SharedPreferences est la source local.
+
 import 'dart:convert';
 
 import 'package:meta/meta.dart';

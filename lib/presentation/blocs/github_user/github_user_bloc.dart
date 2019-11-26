@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/domain/repositories/user_repository.dart';
+import 'package:flutter_architecture_template/domain/usecases/get_github_user.dart';
 import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
 
 class GithubUserBloc extends Bloc<GithubUserEvent, GithubUserState> {
-  final UserRepository repository;
+  final GetGithubUser getGithubUser;
 
   GithubUserBloc({
-    @required this.repository,
-  }) : assert(repository != null);
+    @required this.getGithubUser,
+  }) : assert(getGithubUser != null);
 
   @override
   GithubUserState get initialState => const GithubUserStateInitial();
@@ -22,7 +22,7 @@ class GithubUserBloc extends Bloc<GithubUserEvent, GithubUserState> {
     if (event is GetUserEvent) {
       yield const GithubUserStateLoading();
       try {
-        final user = await repository.getUser(event.username);
+        final user = await getGithubUser(Params(event.username));
         yield GithubUserStateLoaded(user: user);
       } catch (e) {
         yield GithubUserStateError(message: e.toString());

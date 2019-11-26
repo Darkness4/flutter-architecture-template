@@ -1,3 +1,10 @@
+/// Github User Model
+///
+/// Après avoir récupéré les données de Github API, les données doivent être
+/// stocké dans des models.
+///
+/// [GithubUserModel] alimente [GithubUser] et représente un user d'après la
+/// documentation de Github API.
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 

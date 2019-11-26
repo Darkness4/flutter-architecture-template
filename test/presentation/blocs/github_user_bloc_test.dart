@@ -1,18 +1,18 @@
+import 'package:flutter_architecture_template/domain/usecases/get_github_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/domain/repositories/user_repository.dart';
 import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
 
 void main() {
   GithubUserBloc bloc;
-  MockUserRepository mockRepository;
+  MockGetGithubUser mockGetGithubUser;
 
   setUp(() {
-    mockRepository = MockUserRepository();
+    mockGetGithubUser = MockGetGithubUser();
 
-    bloc = GithubUserBloc(repository: mockRepository);
+    bloc = GithubUserBloc(getGithubUser: mockGetGithubUser);
   });
 
   test('initialState should be GithubUserStateInitial', () {
@@ -61,12 +61,12 @@ void main() {
       'should get data from the concrete use case',
       () async {
         // arrange
-        when(mockRepository.getUser(any)).thenAnswer((_) async => tGithubUser);
+        when(mockGetGithubUser(any)).thenAnswer((_) async => tGithubUser);
         // act
         bloc.add(const GetUserEvent(tUser));
-        await untilCalled(mockRepository.getUser(any));
+        await untilCalled(mockGetGithubUser(any));
         // assert
-        verify(mockRepository.getUser(tUser));
+        verify(mockGetGithubUser(const Params(tUser)));
         bloc.close();
       },
     );
@@ -75,7 +75,7 @@ void main() {
       'should emit [GithubUserStateLoading, GithubUserStateLoaded] when data is gotten successfully',
       () async {
         // arrange
-        when(mockRepository.getUser(any)).thenAnswer((_) async => tGithubUser);
+        when(mockGetGithubUser(any)).thenAnswer((_) async => tGithubUser);
         // assert later
         final expected = [
           const GithubUserStateInitial(),
@@ -94,7 +94,7 @@ void main() {
       'should emit [GithubUserStateLoading, GithubUserStateError] when getting data fails',
       () async {
         // arrange
-        when(mockRepository.getUser(any)).thenThrow(ServerException());
+        when(mockGetGithubUser(any)).thenThrow(ServerException());
         // assert later
         final expected = [
           const GithubUserStateInitial(),
@@ -113,7 +113,7 @@ void main() {
       'should emit [GithubUserStateLoading, GithubUserStateError] with a proper message for the error when getting data fails',
       () async {
         // arrange
-        when(mockRepository.getUser(any)).thenThrow(CacheException());
+        when(mockGetGithubUser(any)).thenThrow(CacheException());
         // assert later
         final expected = [
           const GithubUserStateInitial(),
@@ -130,4 +130,4 @@ void main() {
   });
 }
 
-class MockUserRepository extends Mock implements UserRepository {}
+class MockGetGithubUser extends Mock implements GetGithubUser {}
