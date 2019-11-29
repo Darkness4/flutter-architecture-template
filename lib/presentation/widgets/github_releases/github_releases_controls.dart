@@ -22,9 +22,7 @@ class _GithubReleasesControlsState extends State<GithubReleasesControls> {
             border: OutlineInputBorder(),
             hintText: 'author/repo',
           ),
-          onSubmitted: (_) {
-            dispatchRepo();
-          },
+          onSubmitted: (_) => dispatchRepo(),
         ),
       ],
     );

@@ -1,7 +1,10 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/domain/usecases/get_github_releases.dart';
 import 'package:flutter_architecture_template/domain/usecases/get_github_user.dart';
+import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_architecture_template/core/network/network_info.dart';
 import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
@@ -12,12 +15,15 @@ import 'package:flutter_architecture_template/domain/repositories/releases_repos
 import 'package:flutter_architecture_template/domain/repositories/user_repository.dart';
 import 'package:flutter_architecture_template/presentation/blocs/github_releases/bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 final GetIt sl = GetIt.instance;
 
 Future<void> init() async {
   // Bloc
+  sl.registerFactory(
+    () => MainPageBloc(),
+  );
   sl.registerFactory(
     () => GithubReleasesBloc(
       getGithubReleases: sl<GetGithubReleases>(),
@@ -55,7 +61,7 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton<GithubLocalDataSource>(
-    () => GithubLocalDataSourceImpl(sharedPreferences: sl<SharedPreferences>()),
+    () => GithubLocalDataSourceImpl(box: sl.get<Box<dynamic>>()),
   );
 
   //! Core
@@ -64,8 +70,15 @@ Future<void> init() async {
   );
 
   //! External
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => http.Client());
-  sl.registerLazySingleton(() => Connectivity());
+  if (!kIsWeb) {
+    final appDocumentsDirectory =
+        await path_provider.getApplicationDocumentsDirectory();
+    Hive.init(appDocumentsDirectory.path);
+  }
+  await Hive.openBox<dynamic>('prefs');
+  sl.registerLazySingleton<Box<dynamic>>(() => Hive.box<dynamic>('prefs'));
+  sl.registerLazySingleton<http.Client>(() => http.Client());
+  sl.registerLazySingleton<Connectivity>(() => Connectivity());
+
+  //! Ui
 }

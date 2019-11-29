@@ -1,4 +1,4 @@
-package org.morandat.pole.flutter_architecture_template
+package com.example.flutter_architecture_template
 
 import android.os.Bundle
 import io.flutter.app.FlutterActivity

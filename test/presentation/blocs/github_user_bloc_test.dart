@@ -67,7 +67,6 @@ void main() {
         await untilCalled(mockGetGithubUser(any));
         // assert
         verify(mockGetGithubUser(const Params(tUser)));
-        bloc.close();
       },
     );
 
@@ -86,7 +85,6 @@ void main() {
         // act
         bloc.add(const GetUserEvent(tUser));
         await future;
-        bloc.close();
       },
     );
 
@@ -105,7 +103,6 @@ void main() {
         // act
         bloc.add(const GetUserEvent(tUser));
         await future;
-        bloc.close();
       },
     );
 
@@ -124,7 +121,6 @@ void main() {
         // act
         bloc.add(const GetUserEvent(tUser));
         await future;
-        bloc.close();
       },
     );
   });

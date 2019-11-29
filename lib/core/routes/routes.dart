@@ -1,4 +1,3 @@
 class RoutePaths {
-  static const String releases = '/';
-  static const String user = '/user';
+  static const String root = '/';
 }

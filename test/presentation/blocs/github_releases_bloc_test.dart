@@ -112,7 +112,6 @@ void main() {
         await untilCalled(mockGetGithubReleases(any));
         // assert
         verify(mockGetGithubReleases(const Params(tRepo)));
-        bloc.close();
       },
     );
 
@@ -132,7 +131,6 @@ void main() {
         // act
         bloc.add(const GetReleasesEvent(tRepo));
         await future;
-        bloc.close();
       },
     );
 
@@ -151,7 +149,6 @@ void main() {
         // act
         bloc.add(const GetReleasesEvent(tRepo));
         await future;
-        bloc.close();
       },
     );
 
@@ -170,7 +167,6 @@ void main() {
         // act
         bloc.add(const GetReleasesEvent(tRepo));
         await future;
-        bloc.close();
       },
     );
   });

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive/hive.dart';
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
@@ -8,19 +9,18 @@ import 'package:flutter_architecture_template/data/datasources/github_local_data
 import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
 import 'package:flutter_architecture_template/data/models/github/release_model.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../fixtures/fixture_reader.dart';
 
 void main() {
   GithubLocalDataSourceImpl dataSource;
-  MockSharedPreferences mockSharedPreferences;
+  MockBox mockBox;
   const String tRepo = 'Darkness4/minitel-app';
 
   setUp(() {
-    mockSharedPreferences = MockSharedPreferences();
+    mockBox = MockBox();
     dataSource = GithubLocalDataSourceImpl(
-      sharedPreferences: mockSharedPreferences,
+      box: mockBox,
     );
   });
 
@@ -33,12 +33,11 @@ void main() {
       'should return ListGithubRelease from SharedPreferences when there is one in the cache',
       () async {
         // arrange
-        when(mockSharedPreferences.getString(any))
-            .thenReturn(fixture('releases.json'));
+        when<dynamic>(mockBox.get(any)).thenReturn(fixture('releases.json'));
         // act
         final result = await dataSource.fetchLastReleases(tRepo);
         // assert
-        verify(mockSharedPreferences.getString(tRepo));
+        verify<dynamic>(mockBox.get(tRepo));
         expect(result, equals(tListGithubReleaseModel));
       },
     );
@@ -47,7 +46,7 @@ void main() {
       'should throw a CacheExeption when there is not a cached value',
       () async {
         // arrange
-        when(mockSharedPreferences.getString(any)).thenReturn(null);
+        when<dynamic>(mockBox.get(any)).thenReturn(null);
         // act
         final call = dataSource.fetchLastReleases;
         // assert
@@ -108,7 +107,7 @@ void main() {
         final expectedJsonString = json.encode(tListGithubReleaseModel
             .map((GithubReleaseModel release) => release.toJson())
             .toList());
-        verify(mockSharedPreferences.setString(
+        verify(mockBox.put(
           tRepo,
           expectedJsonString,
         ));
@@ -117,4 +116,4 @@ void main() {
   });
 }
 
-class MockSharedPreferences extends Mock implements SharedPreferences {}
+class MockBox extends Mock implements Box<dynamic> {}

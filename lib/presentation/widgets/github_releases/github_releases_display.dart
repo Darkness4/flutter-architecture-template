@@ -27,11 +27,11 @@ class GithubReleasesDisplay extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
-                      Text(
+                      SelectableText(
                         releases[index].name,
                         style: Theme.of(context).textTheme.title,
                       ),
-                      Text(
+                      SelectableText(
                         releases[index].body,
                         style: Theme.of(context).textTheme.body1,
                       ),
