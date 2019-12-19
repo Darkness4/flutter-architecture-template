@@ -111,7 +111,7 @@ void main() {
         bloc.add(const GetReleasesEvent(tRepo));
         await untilCalled(mockGetGithubReleases(any));
         // assert
-        verify(mockGetGithubReleases(const Params(tRepo)));
+        verify(mockGetGithubReleases(tRepo));
       },
     );
 

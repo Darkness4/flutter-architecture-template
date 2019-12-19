@@ -13,28 +13,18 @@
 /// [GetGithubReleases] doit remplir le use case suivant:
 ///
 /// - Obtenir les releases d'un dépôt particulier.
-import 'package:equatable/equatable.dart';
 import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 import 'package:flutter_architecture_template/domain/repositories/releases_repository.dart';
 
-class GetGithubReleases extends Usecase<List<GithubRelease>, Params> {
+class GetGithubReleases extends Usecase<List<GithubRelease>, String> {
   final ReleasesRepository repository;
 
   const GetGithubReleases(this.repository);
 
   @override
-  Future<List<GithubRelease>> call(Params params) async {
+  Future<List<GithubRelease>> call(String repo) async {
     // No error handling, error will be displayed through BLoC
-    return repository.getReleases(params.repo);
+    return repository.getReleases(repo);
   }
-}
-
-class Params extends Equatable {
-  final String repo;
-
-  const Params(this.repo);
-
-  @override
-  List<Object> get props => [repo];
 }

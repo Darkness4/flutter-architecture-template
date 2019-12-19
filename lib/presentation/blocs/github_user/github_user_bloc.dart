@@ -22,7 +22,7 @@ class GithubUserBloc extends Bloc<GithubUserEvent, GithubUserState> {
     if (event is GetUserEvent) {
       yield const GithubUserStateLoading();
       try {
-        final user = await getGithubUser(Params(event.username));
+        final user = await getGithubUser(event.username);
         yield GithubUserStateLoaded(user: user);
       } catch (e) {
         yield GithubUserStateError(message: e.toString());

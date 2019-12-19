@@ -4,7 +4,7 @@ import 'package:flutter_architecture_template/data/mappers/github/user_mapper.da
 import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 
-class GithubAssetMapper extends Mapper<GithubAsset, GithubAssetModel> {
+class GithubAssetMapper implements Mapper<GithubAsset, GithubAssetModel> {
   final GithubUserMapper userMapper;
 
   const GithubAssetMapper({@required this.userMapper});

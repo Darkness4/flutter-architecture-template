@@ -23,7 +23,7 @@ class GithubReleasesBloc
     if (event is GetReleasesEvent) {
       yield const GithubReleasesStateLoading();
       try {
-        final releases = await getGithubReleases(Params(event.repo));
+        final releases = await getGithubReleases(event.repo);
         yield GithubReleasesStateLoaded(releases: releases);
       } catch (e) {
         yield GithubReleasesStateError(message: e.toString());

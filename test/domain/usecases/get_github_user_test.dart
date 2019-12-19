@@ -58,7 +58,7 @@ void main() {
       when(mockUserRepository.getUser(any))
           .thenAnswer((_) async => tGithubUser);
       // act
-      final result = await usecase(const Params(tUser));
+      final result = await usecase(tUser);
       // assert
       expect(result, tGithubUser);
       verify(mockUserRepository.getUser(tUser));

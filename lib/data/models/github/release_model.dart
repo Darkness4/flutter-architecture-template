@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 /// Github Release Model
 ///
 /// Après avoir récupéré les données de Github API, les données doivent être
@@ -7,6 +5,7 @@ import 'package:equatable/equatable.dart';
 ///
 /// [GithubReleaseModel] alimente [GithubRelease] et représente une release
 /// d'après la documentation de Github API.
+import 'package:equatable/equatable.dart';
 import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
@@ -56,6 +55,9 @@ class GithubReleaseModel extends Equatable {
     this.assets,
   });
 
+  factory GithubReleaseModel.fromJson(Map<String, dynamic> json) =>
+      _$GithubReleaseModelFromJson(json);
+
   @override
   List<Object> get props => <Object>[
         url,
@@ -77,8 +79,5 @@ class GithubReleaseModel extends Equatable {
         author,
         assets,
       ];
-
-  factory GithubReleaseModel.fromJson(Map<String, dynamic> json) =>
-      _$GithubReleaseModelFromJson(json);
   Map<String, dynamic> toJson() => _$GithubReleaseModelToJson(this);
 }

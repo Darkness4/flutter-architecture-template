@@ -13,28 +13,18 @@
 /// [GetGithubUser] doit remplir le use case suivant:
 ///
 /// - Obtenir les releases d'un dépôt particulier.
-import 'package:equatable/equatable.dart';
 import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_architecture_template/domain/repositories/user_repository.dart';
 
-class GetGithubUser extends Usecase<GithubUser, Params> {
+class GetGithubUser extends Usecase<GithubUser, String> {
   final UserRepository repository;
 
   const GetGithubUser(this.repository);
 
   @override
-  Future<GithubUser> call(Params params) async {
+  Future<GithubUser> call(String user) async {
     // No error handling, error will be displayed through BLoC
-    return repository.getUser(params.user);
+    return repository.getUser(user);
   }
-}
-
-class Params extends Equatable {
-  final String user;
-
-  const Params(this.user);
-
-  @override
-  List<Object> get props => [user];
 }

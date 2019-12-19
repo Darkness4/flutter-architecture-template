@@ -102,7 +102,7 @@ void main() {
       when(mockReleasesRepository.getReleases(any))
           .thenAnswer((_) async => tListGithubRelease);
       // act
-      final result = await usecase(const Params(tRepo));
+      final result = await usecase(tRepo);
       // assert
       expect(result, tListGithubRelease);
       verify(mockReleasesRepository.getReleases(tRepo));

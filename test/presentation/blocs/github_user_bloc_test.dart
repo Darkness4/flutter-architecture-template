@@ -66,7 +66,7 @@ void main() {
         bloc.add(const GetUserEvent(tUser));
         await untilCalled(mockGetGithubUser(any));
         // assert
-        verify(mockGetGithubUser(const Params(tUser)));
+        verify(mockGetGithubUser(tUser));
       },
     );
 
