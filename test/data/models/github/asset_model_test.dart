@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
-import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -42,14 +41,6 @@ void main() {
       type: 'type',
       site_admin: false,
     ),
-  );
-
-  test(
-    'should be a subclass of GithubAsset entity',
-    () async {
-      // assert
-      expect(tGithubAssetModel, isA<GithubAsset>());
-    },
   );
 
   group('fromJson', () {

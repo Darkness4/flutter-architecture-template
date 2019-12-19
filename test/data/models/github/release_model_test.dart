@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
 import 'package:flutter_architecture_template/data/models/github/release_model.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
-import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -83,14 +82,6 @@ void main() {
         ),
       ),
     ],
-  );
-
-  test(
-    'should be a subclass of GithubRelease entity',
-    () async {
-      // assert
-      expect(tGithubReleaseModel, isA<GithubRelease>());
-    },
   );
 
   group('fromJson', () {

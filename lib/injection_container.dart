@@ -1,5 +1,8 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.dart';
+import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
+import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
 import 'package:flutter_architecture_template/domain/usecases/get_github_releases.dart';
 import 'package:flutter_architecture_template/domain/usecases/get_github_user.dart';
 import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
@@ -47,11 +50,27 @@ Future<void> init() async {
       localDataSource: sl<GithubLocalDataSource>(),
       networkInfo: sl<NetworkInfo>(),
       remoteDataSource: sl<GithubRemoteDataSource>(),
+      releaseMapper: sl<GithubReleaseMapper>(),
     ),
   );
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(
       remoteDataSource: sl<GithubRemoteDataSource>(),
+      userMapper: sl<GithubUserMapper>(),
+    ),
+  );
+
+  // Mappers
+  sl.registerLazySingleton<GithubAssetMapper>(
+    () => GithubAssetMapper(userMapper: sl<GithubUserMapper>()),
+  );
+  sl.registerLazySingleton<GithubUserMapper>(
+    () => GithubUserMapper(),
+  );
+  sl.registerLazySingleton<GithubReleaseMapper>(
+    () => GithubReleaseMapper(
+      userMapper: sl<GithubUserMapper>(),
+      assetMapper: sl<GithubAssetMapper>(),
     ),
   );
 

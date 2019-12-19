@@ -5,6 +5,8 @@ analyzer:
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
+  exclude:
+    - *.g.dart
 
 # All rules: https://github.com/dart-lang/linter/blob/master/example/all.yaml
 linter:

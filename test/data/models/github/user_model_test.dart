@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -40,14 +39,6 @@ void main() {
     following: 0,
     created_at: tDateTime,
     updated_at: tDateTime,
-  );
-
-  test(
-    'should be a subclass of GithubUser entity',
-    () async {
-      // assert
-      expect(tGithubUserModel, isA<GithubUser>());
-    },
   );
 
   group('fromJson', () {

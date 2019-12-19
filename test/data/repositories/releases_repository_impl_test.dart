@@ -1,4 +1,7 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
+import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
+import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
@@ -16,15 +19,18 @@ void main() {
   MockRemoteDataSource mockRemoteDataSource;
   MockLocalDataSource mockLocalDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockReleaseMapper mockReleaseMapper;
 
   setUp(() {
     mockRemoteDataSource = MockRemoteDataSource();
     mockLocalDataSource = MockLocalDataSource();
     mockNetworkInfo = MockNetworkInfo();
+    mockReleaseMapper = MockReleaseMapper();
     repository = ReleasesRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo,
+      releaseMapper: mockReleaseMapper,
     );
   });
 
@@ -53,6 +59,61 @@ void main() {
   group('getReleases', () {
     const tRepo = 'Darkness4/minitel-app';
     final DateTime tDateTime = DateTime.parse("1970-01-01T00:00:00Z");
+    final tUploaderModel = const GithubUserModel(
+      login: 'login',
+      id: 0,
+      node_id: 'node_id',
+      avatar_url: 'avatar_url',
+      gravatar_id: 'gravatar_id',
+      url: 'url',
+      html_url: 'html_url',
+      followers_url: 'followers_url',
+      following_url: 'following_url',
+      gists_url: 'gists_url',
+      starred_url: 'starred_url',
+      subscriptions_url: 'subscriptions_url',
+      organizations_url: 'organizations_url',
+      repos_url: 'repos_url',
+      events_url: 'events_url',
+      received_events_url: 'received_events_url',
+      type: 'type',
+      site_admin: false,
+    );
+    final tAuthorModel = const GithubUserModel(
+      login: 'login',
+      id: 0,
+      node_id: 'node_id',
+      avatar_url: 'avatar_url',
+      gravatar_id: 'gravatar_id',
+      url: 'url',
+      html_url: 'html_url',
+      followers_url: 'followers_url',
+      following_url: 'following_url',
+      gists_url: 'gists_url',
+      starred_url: 'starred_url',
+      subscriptions_url: 'subscriptions_url',
+      organizations_url: 'organizations_url',
+      repos_url: 'repos_url',
+      events_url: 'events_url',
+      received_events_url: 'received_events_url',
+      type: 'type',
+      site_admin: false,
+    );
+    final tAssetModel = GithubAssetModel(
+      url: 'url',
+      browser_download_url: 'browser_download_url',
+      id: 0,
+      node_id: 'node_id',
+      name: 'name',
+      label: 'label',
+      state: 'state',
+      content_type: 'content_type',
+      size: 0,
+      download_count: 0,
+      created_at: tDateTime,
+      updated_at: tDateTime,
+      uploader: tUploaderModel,
+    );
     final tGithubReleaseModel = GithubReleaseModel(
       url: 'url',
       html_url: 'html_url',
@@ -70,64 +131,89 @@ void main() {
       prerelease: false,
       created_at: tDateTime,
       published_at: tDateTime,
-      author: const GithubUserModel(
-        login: 'login',
-        id: 0,
-        node_id: 'node_id',
-        avatar_url: 'avatar_url',
-        gravatar_id: 'gravatar_id',
-        url: 'url',
-        html_url: 'html_url',
-        followers_url: 'followers_url',
-        following_url: 'following_url',
-        gists_url: 'gists_url',
-        starred_url: 'starred_url',
-        subscriptions_url: 'subscriptions_url',
-        organizations_url: 'organizations_url',
-        repos_url: 'repos_url',
-        events_url: 'events_url',
-        received_events_url: 'received_events_url',
-        type: 'type',
-        site_admin: false,
-      ),
+      author: tAuthorModel,
       assets: <GithubAssetModel>[
-        GithubAssetModel(
-          url: 'url',
-          browser_download_url: 'browser_download_url',
-          id: 0,
-          node_id: 'node_id',
-          name: 'name',
-          label: 'label',
-          state: 'state',
-          content_type: 'content_type',
-          size: 0,
-          download_count: 0,
-          created_at: tDateTime,
-          updated_at: tDateTime,
-          uploader: const GithubUserModel(
-            login: 'login',
-            id: 0,
-            node_id: 'node_id',
-            avatar_url: 'avatar_url',
-            gravatar_id: 'gravatar_id',
-            url: 'url',
-            html_url: 'html_url',
-            followers_url: 'followers_url',
-            following_url: 'following_url',
-            gists_url: 'gists_url',
-            starred_url: 'starred_url',
-            subscriptions_url: 'subscriptions_url',
-            organizations_url: 'organizations_url',
-            repos_url: 'repos_url',
-            events_url: 'events_url',
-            received_events_url: 'received_events_url',
-            type: 'type',
-            site_admin: false,
-          ),
-        ),
+        tAssetModel,
       ],
     );
-    final GithubRelease tGithubRelease = tGithubReleaseModel;
+
+    final tUploader = const GithubUser(
+      login: 'login',
+      id: 0,
+      node_id: 'node_id',
+      avatar_url: 'avatar_url',
+      gravatar_id: 'gravatar_id',
+      url: 'url',
+      html_url: 'html_url',
+      followers_url: 'followers_url',
+      following_url: 'following_url',
+      gists_url: 'gists_url',
+      starred_url: 'starred_url',
+      subscriptions_url: 'subscriptions_url',
+      organizations_url: 'organizations_url',
+      repos_url: 'repos_url',
+      events_url: 'events_url',
+      received_events_url: 'received_events_url',
+      type: 'type',
+      site_admin: false,
+    );
+    final tAuthor = const GithubUser(
+      login: 'login',
+      id: 0,
+      node_id: 'node_id',
+      avatar_url: 'avatar_url',
+      gravatar_id: 'gravatar_id',
+      url: 'url',
+      html_url: 'html_url',
+      followers_url: 'followers_url',
+      following_url: 'following_url',
+      gists_url: 'gists_url',
+      starred_url: 'starred_url',
+      subscriptions_url: 'subscriptions_url',
+      organizations_url: 'organizations_url',
+      repos_url: 'repos_url',
+      events_url: 'events_url',
+      received_events_url: 'received_events_url',
+      type: 'type',
+      site_admin: false,
+    );
+    final tAsset = GithubAsset(
+      url: 'url',
+      browser_download_url: 'browser_download_url',
+      id: 0,
+      node_id: 'node_id',
+      name: 'name',
+      label: 'label',
+      state: 'state',
+      content_type: 'content_type',
+      size: 0,
+      download_count: 0,
+      created_at: tDateTime,
+      updated_at: tDateTime,
+      uploader: tUploader,
+    );
+    final tGithubRelease = GithubRelease(
+      url: 'url',
+      html_url: 'html_url',
+      assets_url: 'assets_url',
+      upload_url: 'upload_url',
+      tarball_url: 'tarball_url',
+      zipball_url: 'zipball_url',
+      id: 0,
+      node_id: 'node_id',
+      tag_name: 'tag_name',
+      target_commitish: 'target_commitish',
+      name: 'name',
+      body: 'body',
+      draft: false,
+      prerelease: false,
+      created_at: tDateTime,
+      published_at: tDateTime,
+      author: tAuthor,
+      assets: <GithubAsset>[
+        tAsset,
+      ],
+    );
 
     test(
       'should check if the device is online',
@@ -135,6 +221,9 @@ void main() {
         // arrange
         when(mockNetworkInfo.result)
             .thenAnswer((_) async => ConnectivityResult.wifi);
+        when(mockRemoteDataSource.fetchReleases(any))
+            .thenAnswer((_) async => <GithubReleaseModel>[]);
+        when(mockReleaseMapper.mapTo(any)).thenReturn(null);
         // act
         await repository.getReleases(tRepo);
         // assert
@@ -149,6 +238,8 @@ void main() {
           // arrange
           when(mockRemoteDataSource.fetchReleases(any)).thenAnswer(
               (_) async => <GithubReleaseModel>[tGithubReleaseModel]);
+          when(mockReleaseMapper.mapTo(tGithubReleaseModel))
+              .thenReturn(tGithubRelease);
           // act
           final result = await repository.getReleases(tRepo);
           // assert
@@ -197,12 +288,14 @@ void main() {
           // arrange
           when(mockLocalDataSource.fetchLastReleases(tRepo)).thenAnswer(
               (_) async => <GithubReleaseModel>[tGithubReleaseModel]);
+          when(mockReleaseMapper.mapTo(tGithubReleaseModel))
+              .thenReturn(tGithubRelease);
           // act
           final result = await repository.getReleases(tRepo);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
           verify(mockLocalDataSource.fetchLastReleases(tRepo));
-          expect(result, equals(<GithubReleaseModel>[tGithubReleaseModel]));
+          expect(result, equals(<GithubRelease>[tGithubRelease]));
         },
       );
 
@@ -232,3 +325,5 @@ class MockLocalDataSource extends Mock implements GithubLocalDataSource {}
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 class MockRemoteDataSource extends Mock implements GithubRemoteDataSource {}
+
+class MockReleaseMapper extends Mock implements GithubReleaseMapper {}
