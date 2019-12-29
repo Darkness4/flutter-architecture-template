@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/data/models/firebase_auth/app_user_model.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/rxdart.dart' show SwitchMapExtension;
 
 abstract class FirebaseAuthDataSource {
   Stream<FirebaseUser> get user;
@@ -60,6 +60,7 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
       'photoUrl': user.photoUrl,
       'displayName': user.displayName,
       'lastSeen': DateTime.now(),
+      'isAdmin': false,
     }, merge: true);
   }
 

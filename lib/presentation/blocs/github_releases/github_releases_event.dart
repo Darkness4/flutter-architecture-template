@@ -13,4 +13,7 @@ class GetReleasesEvent extends GithubReleasesEvent {
 @immutable
 abstract class GithubReleasesEvent extends Equatable {
   const GithubReleasesEvent();
+
+  @override
+  List<Object> get props => [];
 }

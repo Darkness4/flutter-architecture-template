@@ -3,6 +3,8 @@ import 'package:flutter_architecture_template/data/models/github/user_model.dart
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 
 class GithubUserMapper implements Mapper<GithubUser, GithubUserModel> {
+  const GithubUserMapper();
+
   @override
   GithubUserModel mapFrom(GithubUser entity) {
     return GithubUserModel(

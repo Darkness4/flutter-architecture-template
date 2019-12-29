@@ -1,13 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/core/mappers/mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
 import 'package:flutter_architecture_template/data/models/firebase_auth/app_user_model.dart';
 import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
 
 class AppUserMapper implements Mapper<AppUser, AppUserModel> {
-  final GithubUserMapper userMapper;
-
-  const AppUserMapper({@required this.userMapper});
+  const AppUserMapper();
 
   @override
   AppUserModel mapFrom(AppUser entity) {

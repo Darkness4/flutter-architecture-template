@@ -5,6 +5,9 @@ import 'package:flutter_architecture_template/domain/entities/github/release.dar
 @immutable
 abstract class GithubReleasesState extends Equatable {
   const GithubReleasesState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class GithubReleasesStateError extends GithubReleasesState {
@@ -18,8 +21,6 @@ class GithubReleasesStateError extends GithubReleasesState {
 
 class GithubReleasesStateInitial extends GithubReleasesState {
   const GithubReleasesStateInitial();
-  @override
-  List<Object> get props => [];
 }
 
 class GithubReleasesStateLoaded extends GithubReleasesState {
@@ -33,6 +34,4 @@ class GithubReleasesStateLoaded extends GithubReleasesState {
 
 class GithubReleasesStateLoading extends GithubReleasesState {
   const GithubReleasesStateLoading();
-  @override
-  List<Object> get props => [];
 }

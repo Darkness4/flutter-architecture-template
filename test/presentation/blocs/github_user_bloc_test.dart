@@ -1,4 +1,4 @@
-import 'package:flutter_architecture_template/domain/usecases/get_github_user.dart';
+import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';

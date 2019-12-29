@@ -6,6 +6,7 @@ class AppUserModel extends Equatable {
   final String photoUrl;
   final String displayName;
   final DateTime lastSeen;
+  final bool isAdmin;
 
   const AppUserModel({
     this.uid,
@@ -13,6 +14,7 @@ class AppUserModel extends Equatable {
     this.photoUrl,
     this.displayName,
     this.lastSeen,
+    this.isAdmin,
   });
 
   factory AppUserModel.fromMap(Map<String, dynamic> map) {
@@ -22,6 +24,7 @@ class AppUserModel extends Equatable {
       photoUrl: map['photoURL'],
       displayName: map['displayName'],
       lastSeen: map['lastSeen'],
+      isAdmin: map['isAdmin'],
     );
   }
 
@@ -32,6 +35,7 @@ class AppUserModel extends Equatable {
       'photoUrl': photoUrl,
       'displayName': displayName,
       'lastSeen': lastSeen,
+      'isAdmmin': isAdmin,
     };
   }
 
@@ -42,5 +46,6 @@ class AppUserModel extends Equatable {
         this.photoUrl,
         this.displayName,
         this.lastSeen,
+        this.isAdmin,
       ];
 }
