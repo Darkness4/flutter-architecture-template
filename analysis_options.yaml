@@ -7,6 +7,8 @@ analyzer:
     implicit-dynamic: false
   exclude:
     - *.g.dart
+  enable-experiment:
+    - extension-methods
 
 # All rules: https://github.com/dart-lang/linter/blob/master/example/all.yaml
 linter:

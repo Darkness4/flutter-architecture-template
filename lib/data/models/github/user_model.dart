@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 /// Github User Model
 ///
 /// Après avoir récupéré les données de Github API, les données doivent être
@@ -7,6 +5,7 @@ import 'package:equatable/equatable.dart';
 ///
 /// [GithubUserModel] alimente [GithubUser] et représente un user d'après la
 /// documentation de Github API.
+import 'package:equatable/equatable.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -82,8 +81,6 @@ class GithubUserModel extends Equatable {
 
   factory GithubUserModel.fromJson(Map<String, dynamic> json) =>
       _$GithubUserModelFromJson(json);
-  Map<String, dynamic> toJson() => _$GithubUserModelToJson(this);
-
   @override
   List<Object> get props => <Object>[
         login,
@@ -118,4 +115,6 @@ class GithubUserModel extends Equatable {
         created_at,
         updated_at,
       ];
+
+  Map<String, dynamic> toJson() => _$GithubUserModelToJson(this);
 }

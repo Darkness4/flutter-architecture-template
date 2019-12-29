@@ -1,25 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_architecture_template/core/network/network_info.dart';
+import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
+import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
+import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
 import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.dart';
 import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
 import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
+import 'package:flutter_architecture_template/data/repositories/github/releases_repository_impl.dart';
+import 'package:flutter_architecture_template/data/repositories/github/user_repository_impl.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
 import 'package:flutter_architecture_template/domain/usecases/get_github_releases.dart';
 import 'package:flutter_architecture_template/domain/usecases/get_github_user.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_releases/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_architecture_template/core/network/network_info.dart';
-import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
-import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
-import 'package:flutter_architecture_template/data/repositories/releases_repository_impl.dart';
-import 'package:flutter_architecture_template/data/repositories/user_repository_impl.dart';
-import 'package:flutter_architecture_template/domain/repositories/releases_repository.dart';
-import 'package:flutter_architecture_template/domain/repositories/user_repository.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_releases/bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
+final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+final Firestore firestore = Firestore.instance;
 final GetIt sl = GetIt.instance;
 
 Future<void> init() async {
@@ -83,6 +88,13 @@ Future<void> init() async {
     () => GithubLocalDataSourceImpl(box: sl.get<Box<dynamic>>()),
   );
 
+  sl.registerLazySingleton<FirebaseAuthDataSource>(
+    () => FirebaseAuthDataSourceImpl(
+      auth: firebaseAuth,
+      db: firestore,
+    ),
+  );
+
   //! Core
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(sl<Connectivity>()),
@@ -98,6 +110,4 @@ Future<void> init() async {
   sl.registerLazySingleton<Box<dynamic>>(() => Hive.box<dynamic>('prefs'));
   sl.registerLazySingleton<http.Client>(() => http.Client());
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
-
-  //! Ui
 }

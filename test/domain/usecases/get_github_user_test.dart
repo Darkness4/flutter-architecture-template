@@ -1,5 +1,5 @@
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/domain/repositories/user_repository.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
 import 'package:flutter_architecture_template/domain/usecases/get_github_user.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';

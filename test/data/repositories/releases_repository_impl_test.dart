@@ -1,5 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
+import 'package:flutter_architecture_template/data/repositories/github/releases_repository_impl.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_architecture_template/data/datasources/github_remote_dat
 import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
 import 'package:flutter_architecture_template/data/models/github/release_model.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
-import 'package:flutter_architecture_template/data/repositories/releases_repository_impl.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 
 void main() {

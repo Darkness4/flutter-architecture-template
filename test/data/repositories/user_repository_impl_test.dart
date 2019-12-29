@@ -1,11 +1,11 @@
 import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
+import 'package:flutter_architecture_template/data/repositories/github/user_repository_impl.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
-import 'package:flutter_architecture_template/data/repositories/user_repository_impl.dart';
 
 void main() {
   UserRepositoryImpl repository;

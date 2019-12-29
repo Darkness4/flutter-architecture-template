@@ -13,7 +13,7 @@ import 'package:flutter_architecture_template/data/datasources/github_local_data
 import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
 import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
-import 'package:flutter_architecture_template/domain/repositories/releases_repository.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
 
 class ReleasesRepositoryImpl implements ReleasesRepository {
   final GithubLocalDataSource localDataSource;

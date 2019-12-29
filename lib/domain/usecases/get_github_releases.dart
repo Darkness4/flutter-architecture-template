@@ -15,7 +15,7 @@
 /// - Obtenir les releases d'un dépôt particulier.
 import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
-import 'package:flutter_architecture_template/domain/repositories/releases_repository.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
 
 class GetGithubReleases extends Usecase<List<GithubRelease>, String> {
   final ReleasesRepository repository;
