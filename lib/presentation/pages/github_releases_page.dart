@@ -16,7 +16,7 @@ class GithubReleasesPage extends StatelessWidget {
   }
 
   BlocProvider<GithubReleasesBloc> buildBody(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<GithubReleasesBloc>(
       create: (_) => sl<GithubReleasesBloc>(),
       child: Center(
         child: BlocBuilder<GithubReleasesBloc, GithubReleasesState>(

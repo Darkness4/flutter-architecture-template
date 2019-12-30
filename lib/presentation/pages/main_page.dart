@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:flutter_architecture_template/presentation/blocs/main/bloc.dart';
+import 'package:flutter_architecture_template/presentation/pages/firebase_page.dart';
 import 'package:flutter_architecture_template/presentation/pages/github_releases_page.dart';
 import 'package:flutter_architecture_template/presentation/pages/github_user_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,7 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<MainPageBloc>(
       create: (_) => sl<MainPageBloc>(),
       child: BlocListener<MainPageBloc, MainPageState>(
         listener: onNewState,
@@ -35,6 +36,7 @@ class MainPage extends StatelessWidget {
       children: const <Widget>[
         GithubReleasesPage(),
         GithubUserPage(),
+        FirebasePage(),
       ],
     );
   }
@@ -51,6 +53,10 @@ class MainPage extends StatelessWidget {
         const BottomNavigationBarItem(
           icon: Icon(Icons.access_alarm),
           title: Text('User'),
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.access_alarm),
+          title: Text('Login'),
         ),
       ],
     );
@@ -69,6 +75,12 @@ class MainPage extends StatelessWidget {
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 300),
       );
+    } else if (state is ThirdPageState) {
+      pageController.animateToPage(
+        2,
+        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 300),
+      );
     }
   }
 
@@ -84,6 +96,11 @@ class MainPage extends StatelessWidget {
           print("Goto 2");
           BlocProvider.of<MainPageBloc>(context)
               .add(const GoToSecondPageEvent());
+          break;
+        case 2:
+          print("Goto 3");
+          BlocProvider.of<MainPageBloc>(context)
+              .add(const GoToThirdPageEvent());
           break;
         default:
       }

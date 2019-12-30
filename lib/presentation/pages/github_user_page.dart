@@ -16,7 +16,7 @@ class GithubUserPage extends StatelessWidget {
   }
 
   BlocProvider<GithubUserBloc> buildBody(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<GithubUserBloc>(
       create: (_) => sl<GithubUserBloc>(),
       child: Center(
         child: BlocBuilder<GithubUserBloc, GithubUserState>(

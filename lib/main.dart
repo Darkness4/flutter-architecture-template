@@ -20,7 +20,8 @@ class _MyAppState extends State<MyApp> {
       future: di.init(),
       builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
         if (snapshot.hasError) {
-          return Text(snapshot.error.toString());
+          return MaterialApp(
+              home: Center(child: Text(snapshot.error.toString())));
         }
         switch (snapshot.connectionState) {
           case ConnectionState.none:

@@ -40,6 +40,7 @@ class AuthenticationBloc
   }
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
+    yield Unauthenticated();
     yield* getAuthState(NoParams()).switchMap((FirebaseUser user) {
       if (user == null) {
         return Stream.value(Unauthenticated());
@@ -56,6 +57,6 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {
     yield Unauthenticated();
-    firebaseAuthSignOut(NoParams());
+    await firebaseAuthSignOut(NoParams());
   }
 }

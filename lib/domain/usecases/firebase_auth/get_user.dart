@@ -9,6 +9,6 @@ class GetAppUser extends UsecaseStream<AppUser, NoParams> {
 
   @override
   Stream<AppUser> call(NoParams) {
-    return repository.profile;
+    return repository.profile.asBroadcastStream();
   }
 }

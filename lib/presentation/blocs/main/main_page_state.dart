@@ -14,3 +14,7 @@ class FirstPageState extends MainPageState {
 class SecondPageState extends MainPageState {
   const SecondPageState();
 }
+
+class ThirdPageState extends MainPageState {
+  const ThirdPageState();
+}

@@ -9,6 +9,6 @@ class GetAuthState extends UsecaseStream<FirebaseUser, NoParams> {
 
   @override
   Stream<FirebaseUser> call(NoParams) {
-    return repository.user;
+    return repository.user.asBroadcastStream();
   }
 }

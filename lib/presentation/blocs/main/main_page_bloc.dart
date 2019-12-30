@@ -18,6 +18,9 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     } else if (event is GoToSecondPageEvent) {
       currentIndex = 1;
       yield const SecondPageState();
+    } else if (event is GoToThirdPageEvent) {
+      currentIndex = 2;
+      yield const ThirdPageState();
     }
   }
 }

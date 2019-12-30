@@ -14,3 +14,7 @@ class GoToFirstPageEvent extends MainPageEvent {
 class GoToSecondPageEvent extends MainPageEvent {
   const GoToSecondPageEvent();
 }
+
+class GoToThirdPageEvent extends MainPageEvent {
+  const GoToThirdPageEvent();
+}

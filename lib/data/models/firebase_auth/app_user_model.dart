@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class AppUserModel extends Equatable {
@@ -23,7 +24,7 @@ class AppUserModel extends Equatable {
       email: map['email'],
       photoUrl: map['photoURL'],
       displayName: map['displayName'],
-      lastSeen: map['lastSeen'],
+      lastSeen: (map['lastSeen'] as Timestamp).toDate(),
       isAdmin: map['isAdmin'],
     );
   }
