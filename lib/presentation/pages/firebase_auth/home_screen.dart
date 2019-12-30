@@ -1,26 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/authentication/bloc.dart';
+import 'package:flutter_architecture_template/core/usecases/usecase.dart';
+import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
+import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signout.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-  final String name;
+  final AppUser user;
 
-  HomeScreen({Key key, @required this.name}) : super(key: key);
+  HomeScreen({Key key, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Center(child: Text('Welcome $name!')),
+        Center(child: Text('Welcome ${user.email}!')),
+        BlocProvider<UserDataBloc>(
+          create: (_) => sl<UserDataBloc>(),
+          child: BlocBuilder<UserDataBloc, UserDataState>(
+            builder: (BuildContext context, UserDataState state) {
+              if (state is UpdatedState || state is NotUpdatedState)
+                return Switch(
+                  value: user.isAdmin,
+                  onChanged: (value) {
+                    final AppUser newUser = AppUser.setAdmin(user, value);
+                    sl<UserDataBloc>().add(UpdatedUserData(newUser));
+                  },
+                );
+              else
+                return const CircularProgressIndicator();
+            },
+          ),
+        ),
         RaisedButton(
           child: Text("SignOut"),
           onPressed: () {
-            BlocProvider.of<AuthenticationBloc>(context).add(
-              LoggedOut(),
-            );
+            sl<FirebaseAuthSignOut>()(NoParams());
           },
-        )
+        ),
       ],
     );
   }

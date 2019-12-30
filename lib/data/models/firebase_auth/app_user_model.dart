@@ -24,7 +24,7 @@ class AppUserModel extends Equatable {
       email: map['email'],
       photoUrl: map['photoURL'],
       displayName: map['displayName'],
-      lastSeen: (map['lastSeen'] as Timestamp).toDate(),
+      lastSeen: (map['lastSeen'] as Timestamp)?.toDate(),
       isAdmin: map['isAdmin'],
     );
   }
@@ -36,7 +36,7 @@ class AppUserModel extends Equatable {
       'photoUrl': photoUrl,
       'displayName': displayName,
       'lastSeen': lastSeen,
-      'isAdmmin': isAdmin,
+      'isAdmin': isAdmin,
     };
   }
 

@@ -4,7 +4,7 @@ analyzer:
     implicit-dynamic: false
   exclude:
     - *.g.dart
-    - lib/generated_plugin_registrant.dart
+    - *generated_plugin_registrant.dart
   enable-experiment:
     - extension-methods
 

@@ -6,6 +6,7 @@ import 'package:flutter_architecture_template/core/network/network_info.dart';
 import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
 import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
 import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
+import 'package:flutter_architecture_template/data/mappers/firebase_auth/app_user_mapper.dart';
 import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.dart';
 import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
 import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_architecture_template/domain/repositories/github/release
 import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_auth_state.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_user.dart';
+import 'package:flutter_architecture_template/domain/usecases/firebase_auth/set_user_data.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signin.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signout.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signup.dart';
@@ -25,6 +27,7 @@ import 'package:flutter_architecture_template/domain/usecases/github/get_user.da
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/login/bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/register/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/github_releases/bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
@@ -33,14 +36,35 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-import 'data/mappers/firebase_auth/app_user_mapper.dart';
-
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final Firestore firestore = Firestore.instance;
 final GetIt sl = GetIt.instance;
 
 Future<void> init() async {
-  // Bloc
+  await initBlocs();
+  await initUsecases();
+  await initRepositories();
+  await initMappers();
+  await initDatasources();
+
+  //! Core
+  sl.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(sl<Connectivity>()),
+  );
+
+  //! External
+  if (!kIsWeb) {
+    final appDocumentsDirectory =
+        await path_provider.getApplicationDocumentsDirectory();
+    Hive.init(appDocumentsDirectory.path);
+  }
+  await Hive.openBox<dynamic>('prefs');
+  sl.registerLazySingleton<Box<dynamic>>(() => Hive.box<dynamic>('prefs'));
+  sl.registerLazySingleton<http.Client>(() => http.Client());
+  sl.registerLazySingleton<Connectivity>(() => Connectivity());
+}
+
+Future<void> initBlocs() async {
   sl.registerFactory(
     () => MainPageBloc(),
   );
@@ -61,7 +85,6 @@ Future<void> init() async {
   );
   sl.registerFactory(
     () => AuthenticationBloc(
-      firebaseAuthSignOut: sl<FirebaseAuthSignOut>(),
       getAppUser: sl<GetAppUser>(),
       getAuthState: sl<GetAuthState>(),
     ),
@@ -71,8 +94,14 @@ Future<void> init() async {
       firebaseAuthSignUp: sl<FirebaseAuthSignUp>(),
     ),
   );
+  sl.registerFactory(
+    () => UserDataBloc(
+      setUserData: sl<SetUserData>(),
+    ),
+  );
+}
 
-  // Use cases
+Future<void> initUsecases() async {
   sl.registerLazySingleton(
     () => GetGithubUser(sl<UserRepository>()),
   );
@@ -94,8 +123,12 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => FirebaseAuthSignUp(sl<AppUserRepository>()),
   );
+  sl.registerLazySingleton(
+    () => SetUserData(sl<AppUserRepository>()),
+  );
+}
 
-  // Repository
+Future<void> initRepositories() async {
   sl.registerLazySingleton<ReleasesRepository>(
     () => ReleasesRepositoryImpl(
       localDataSource: sl<GithubLocalDataSource>(),
@@ -116,8 +149,9 @@ Future<void> init() async {
       userMapper: sl<AppUserMapper>(),
     ),
   );
+}
 
-  // Mappers
+Future<void> initMappers() async {
   sl.registerLazySingleton<GithubAssetMapper>(
     () => GithubAssetMapper(userMapper: sl<GithubUserMapper>()),
   );
@@ -133,8 +167,9 @@ Future<void> init() async {
   sl.registerLazySingleton<AppUserMapper>(
     () => const AppUserMapper(),
   );
+}
 
-  // Data sources
+Future<void> initDatasources() async {
   sl.registerLazySingleton<GithubRemoteDataSource>(
     () => GithubRemoteDataSourceImpl(client: sl<http.Client>()),
   );
@@ -149,20 +184,4 @@ Future<void> init() async {
       db: firestore,
     ),
   );
-
-  //! Core
-  sl.registerLazySingleton<NetworkInfo>(
-    () => NetworkInfoImpl(sl<Connectivity>()),
-  );
-
-  //! External
-  if (!kIsWeb) {
-    final appDocumentsDirectory =
-        await path_provider.getApplicationDocumentsDirectory();
-    Hive.init(appDocumentsDirectory.path);
-  }
-  await Hive.openBox<dynamic>('prefs');
-  sl.registerLazySingleton<Box<dynamic>>(() => Hive.box<dynamic>('prefs'));
-  sl.registerLazySingleton<http.Client>(() => http.Client());
-  sl.registerLazySingleton<Connectivity>(() => Connectivity());
 }

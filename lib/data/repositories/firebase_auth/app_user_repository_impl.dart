@@ -16,7 +16,6 @@ class AppUserRepositoryImpl implements AppUserRepository {
   @override
   Stream<AppUser> get profile => dataSource.profile.map(userMapper.mapTo);
 
-  // TODO: Use it
   @override
   Future<void> setUserData(AppUser map) {
     return dataSource.setUserData(userMapper.mapFrom(map));

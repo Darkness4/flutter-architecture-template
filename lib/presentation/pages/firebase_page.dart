@@ -25,7 +25,7 @@ class FirebasePage extends StatelessWidget {
             } else if (state is Unauthenticated) {
               return LoginScreen();
             } else if (state is Authenticated) {
-              return HomeScreen(name: state.user.email);
+              return HomeScreen(user: state.user);
             }
             return null;
           },

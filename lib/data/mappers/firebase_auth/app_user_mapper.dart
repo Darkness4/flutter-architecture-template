@@ -13,6 +13,7 @@ class AppUserMapper implements Mapper<AppUser, AppUserModel> {
       photoUrl: entity.photoUrl,
       displayName: entity.displayName,
       lastSeen: entity.lastSeen,
+      isAdmin: entity.isAdmin,
     );
   }
 
@@ -24,6 +25,7 @@ class AppUserMapper implements Mapper<AppUser, AppUserModel> {
       photoUrl: model.photoUrl,
       displayName: model.displayName,
       lastSeen: model.lastSeen,
+      isAdmin: model.isAdmin,
     );
   }
 }
