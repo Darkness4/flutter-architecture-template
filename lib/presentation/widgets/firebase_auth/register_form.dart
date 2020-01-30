@@ -24,7 +24,7 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   void initState() {
     super.initState();
-    _registerBloc = BlocProvider.of<RegisterBloc>(context);
+    _registerBloc = context.bloc<RegisterBloc>();
     _emailController.addListener(_onEmailChanged);
     _passwordController.addListener(_onPasswordChanged);
   }
@@ -49,7 +49,7 @@ class _RegisterFormState extends State<RegisterForm> {
             );
         }
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
+          context.bloc<AuthenticationBloc>().add(LoggedIn());
           Navigator.of(context).pop();
         }
         if (state.isFailure) {

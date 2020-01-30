@@ -29,8 +29,7 @@ class _GithubReleasesControlsState extends State<GithubReleasesControls> {
   }
 
   void dispatchRepo() {
-    BlocProvider.of<GithubReleasesBloc>(context)
-        .add(GetReleasesEvent(controller.text));
+    context.bloc<GithubReleasesBloc>().add(GetReleasesEvent(controller.text));
   }
 
   @override

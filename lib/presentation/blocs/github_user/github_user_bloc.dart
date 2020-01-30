@@ -13,14 +13,14 @@ class GithubUserBloc extends Bloc<GithubUserEvent, GithubUserState> {
   }) : assert(getGithubUser != null);
 
   @override
-  GithubUserState get initialState => const GithubUserStateInitial();
+  GithubUserState get initialState => GithubUserStateInitial();
 
   @override
   Stream<GithubUserState> mapEventToState(
     GithubUserEvent event,
   ) async* {
     if (event is GetUserEvent) {
-      yield const GithubUserStateLoading();
+      yield GithubUserStateLoading();
       try {
         final user = await getGithubUser(event.username);
         yield GithubUserStateLoaded(user: user);

@@ -1,20 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-abstract class MainPageState extends Equatable {
-  const MainPageState();
+class MainPageState extends Equatable {
+  final int currentIndex;
+
+  MainPageState(this.currentIndex);
 
   @override
-  List<Object> get props => [];
-}
-
-class FirstPageState extends MainPageState {
-  const FirstPageState();
-}
-
-class SecondPageState extends MainPageState {
-  const SecondPageState();
-}
-
-class ThirdPageState extends MainPageState {
-  const ThirdPageState();
+  List<Object> get props => [currentIndex];
 }

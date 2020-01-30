@@ -6,18 +6,6 @@ abstract class Usecase<Type, Params> {
   Type call(Params params);
 }
 
-abstract class UsecaseAsync<Type, Params> {
-  const UsecaseAsync();
-
-  Future<Type> call(Params params);
-}
-
-abstract class UsecaseStream<Type, Params> {
-  const UsecaseStream();
-
-  Stream<Type> call(Params params);
-}
-
 class NoParams extends Equatable {
   const NoParams();
 

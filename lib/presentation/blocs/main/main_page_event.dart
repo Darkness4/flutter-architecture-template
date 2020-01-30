@@ -1,20 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
+@immutable
 abstract class MainPageEvent extends Equatable {
-  const MainPageEvent();
-
   @override
   List<Object> get props => [];
 }
 
-class GoToFirstPageEvent extends MainPageEvent {
-  const GoToFirstPageEvent();
-}
+class GoToPageEvent extends MainPageEvent {
+  final int index;
 
-class GoToSecondPageEvent extends MainPageEvent {
-  const GoToSecondPageEvent();
-}
+  GoToPageEvent(this.index);
 
-class GoToThirdPageEvent extends MainPageEvent {
-  const GoToThirdPageEvent();
+  @override
+  List<Object> get props => [index];
 }

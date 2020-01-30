@@ -17,7 +17,7 @@ import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
 
-class GetGithubUser extends UsecaseAsync<GithubUser, String> {
+class GetGithubUser extends Usecase<Future<GithubUser>, String> {
   final UserRepository repository;
 
   const GetGithubUser(this.repository);

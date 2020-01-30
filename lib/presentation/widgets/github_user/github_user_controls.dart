@@ -31,7 +31,7 @@ class _GithubUserControlsState extends State<GithubUserControls> {
   }
 
   void dispatchUser() {
-    BlocProvider.of<GithubUserBloc>(context).add(GetUserEvent(controller.text));
+    context.bloc<GithubUserBloc>().add(GetUserEvent(controller.text));
   }
 
   @override

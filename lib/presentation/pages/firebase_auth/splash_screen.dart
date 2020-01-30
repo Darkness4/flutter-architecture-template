@@ -10,8 +10,7 @@ class SplashScreen extends StatelessWidget {
       body: Center(
         child: RaisedButton(
           child: Text("Refresh"),
-          onPressed: () =>
-              BlocProvider.of<AuthenticationBloc>(context).add(AppStarted()),
+          onPressed: () => context.bloc<AuthenticationBloc>().add(AppStarted()),
         ),
       ),
     );

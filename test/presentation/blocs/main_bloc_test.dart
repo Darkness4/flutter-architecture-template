@@ -12,7 +12,7 @@ void main() {
 
   test('initialState should be GithubUserStateInitial', () {
     // assert
-    expect(bloc.initialState, equals(const FirstPageState()));
+    expect(bloc.initialState, equals(MainPageState(0)));
   });
 
   group('GoToSecondPageEvent then GoToFirstPageEvent', () {
@@ -21,14 +21,14 @@ void main() {
       () async {
         // assert later
         final expected = [
-          FirstPageState(),
-          SecondPageState(),
-          FirstPageState(),
+          MainPageState(0),
+          MainPageState(1),
+          MainPageState(0),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(const GoToSecondPageEvent());
-        bloc.add(const GoToFirstPageEvent());
+        bloc.add(GoToPageEvent(1));
+        bloc.add(GoToPageEvent(0));
         await future;
       },
     );
@@ -39,10 +39,10 @@ void main() {
       'should emit [FirstPageState, SecondPageState]',
       () async {
         // assert later
-        final expected = [FirstPageState(), SecondPageState()];
+        final expected = [MainPageState(0), MainPageState(1)];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(const GoToSecondPageEvent());
+        bloc.add(GoToPageEvent(1));
         await future;
       },
     );

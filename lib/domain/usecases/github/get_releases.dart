@@ -17,7 +17,7 @@ import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
 
-class GetGithubReleases extends UsecaseAsync<List<GithubRelease>, String> {
+class GetGithubReleases extends Usecase<Future<List<GithubRelease>>, String> {
   final ReleasesRepository repository;
 
   const GetGithubReleases(this.repository);

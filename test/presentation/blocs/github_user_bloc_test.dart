@@ -17,7 +17,7 @@ void main() {
 
   test('initialState should be GithubUserStateInitial', () {
     // assert
-    expect(bloc.initialState, equals(const GithubUserStateInitial()));
+    expect(bloc.initialState, equals(GithubUserStateInitial()));
   });
 
   group('GetUserEvent', () {
@@ -63,7 +63,7 @@ void main() {
         // arrange
         when(mockGetGithubUser(any)).thenAnswer((_) async => tGithubUser);
         // act
-        bloc.add(const GetUserEvent(tUser));
+        bloc.add(GetUserEvent(tUser));
         await untilCalled(mockGetGithubUser(any));
         // assert
         verify(mockGetGithubUser(tUser));
@@ -77,13 +77,13 @@ void main() {
         when(mockGetGithubUser(any)).thenAnswer((_) async => tGithubUser);
         // assert later
         final expected = [
-          const GithubUserStateInitial(),
-          const GithubUserStateLoading(),
+          GithubUserStateInitial(),
+          GithubUserStateLoading(),
           GithubUserStateLoaded(user: tGithubUser),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(const GetUserEvent(tUser));
+        bloc.add(GetUserEvent(tUser));
         await future;
       },
     );
@@ -95,13 +95,13 @@ void main() {
         when(mockGetGithubUser(any)).thenThrow(ServerException());
         // assert later
         final expected = [
-          const GithubUserStateInitial(),
-          const GithubUserStateLoading(),
-          const GithubUserStateError(message: 'ServerException'),
+          GithubUserStateInitial(),
+          GithubUserStateLoading(),
+          GithubUserStateError(message: 'ServerException'),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(const GetUserEvent(tUser));
+        bloc.add(GetUserEvent(tUser));
         await future;
       },
     );
@@ -113,13 +113,13 @@ void main() {
         when(mockGetGithubUser(any)).thenThrow(CacheException());
         // assert later
         final expected = [
-          const GithubUserStateInitial(),
-          const GithubUserStateLoading(),
-          const GithubUserStateError(message: 'CacheException'),
+          GithubUserStateInitial(),
+          GithubUserStateLoading(),
+          GithubUserStateError(message: 'CacheException'),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(const GetUserEvent(tUser));
+        bloc.add(GetUserEvent(tUser));
         await future;
       },
     );

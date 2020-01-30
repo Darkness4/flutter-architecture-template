@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/repositories/firebase_auth/app_user_repository.dart';
 
-class FirebaseAuthSignIn extends UsecaseAsync<AuthResult, SignInCredentials> {
+class FirebaseAuthSignIn
+    extends Usecase<Future<AuthResult>, SignInCredentials> {
   final AppUserRepository repository;
 
   const FirebaseAuthSignIn(this.repository);

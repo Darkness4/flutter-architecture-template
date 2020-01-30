@@ -33,7 +33,6 @@ class UserRepositoryImpl implements UserRepository {
 
   Future<GithubUser> _getUser(String username) async {
     if (await networkInfo.result != ConnectivityResult.none) {
-      remoteDataSource.fetchUser(username).then(mapper.mapTo);
       final user = await remoteDataSource.fetchUser(username);
       await localDataSource.cacheUser(user, username);
       return mapper.mapTo(user);
