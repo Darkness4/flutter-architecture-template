@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 /// Github Asset Model
 ///
 /// Après avoir récupéré les données de Github API, les données doivent être
@@ -7,7 +5,7 @@ import 'package:equatable/equatable.dart';
 ///
 /// [GithubAssetModel] alimente [GithubAsset] qui représente un asset d'après
 /// la documentation de Github API.
-
+import 'package:equatable/equatable.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 import 'package:json_annotation/json_annotation.dart';

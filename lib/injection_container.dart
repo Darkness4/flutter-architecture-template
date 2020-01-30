@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/core/network/network_info.dart';
 import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
 import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
@@ -33,8 +32,8 @@ import 'package:flutter_architecture_template/presentation/blocs/github_user/blo
 import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart' as path_provider;
 
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final Firestore firestore = Firestore.instance;
@@ -53,11 +52,7 @@ Future<void> init() async {
   );
 
   //! External
-  if (!kIsWeb) {
-    final appDocumentsDirectory =
-        await path_provider.getApplicationDocumentsDirectory();
-    Hive.init(appDocumentsDirectory.path);
-  }
+  await Hive.initFlutter();
   await Hive.openBox<dynamic>('prefs');
   sl.registerLazySingleton<Box<dynamic>>(() => Hive.box<dynamic>('prefs'));
   sl.registerLazySingleton<http.Client>(() => http.Client());
@@ -140,7 +135,9 @@ Future<void> initRepositories() async {
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(
       remoteDataSource: sl<GithubRemoteDataSource>(),
-      userMapper: sl<GithubUserMapper>(),
+      localDataSource: sl<GithubLocalDataSource>(),
+      mapper: sl<GithubUserMapper>(),
+      networkInfo: sl<NetworkInfo>(),
     ),
   );
   sl.registerLazySingleton<AppUserRepository>(

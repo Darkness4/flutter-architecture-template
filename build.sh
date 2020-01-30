@@ -1,2 +1,2 @@
 #!/bin/sh
-flutter pub run build_runner builds
+flutter pub run build_runner build

@@ -62,7 +62,6 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
       'photoUrl': user.photoUrl,
       'displayName': user.displayName,
       'lastSeen': DateTime.now(),
-      'isAdmin': false,
     }, merge: true);
   }
 

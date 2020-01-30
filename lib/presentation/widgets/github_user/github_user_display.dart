@@ -16,9 +16,9 @@ class GithubUserDisplay extends StatelessWidget {
       child: Card(
         child: Column(
           children: <Widget>[
-            Text(user.name, style: Theme.of(context).textTheme.title),
-            Text(user.bio, style: Theme.of(context).textTheme.body1),
-            Text(user.url, style: Theme.of(context).textTheme.body1),
+            Text(user.name, style: Theme.of(context).textTheme.headline6),
+            Text(user.bio, style: Theme.of(context).textTheme.bodyText2),
+            Text(user.url, style: Theme.of(context).textTheme.bodyText2),
           ],
         ),
       ),

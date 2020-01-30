@@ -29,11 +29,11 @@ class GithubReleasesDisplay extends StatelessWidget {
                     children: <Widget>[
                       SelectableText(
                         releases[index].name,
-                        style: Theme.of(context).textTheme.title,
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                       SelectableText(
                         releases[index].body,
-                        style: Theme.of(context).textTheme.body1,
+                        style: Theme.of(context).textTheme.bodyText2,
                       ),
                     ],
                   ),

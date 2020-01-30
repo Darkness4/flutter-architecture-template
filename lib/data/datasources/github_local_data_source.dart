@@ -7,6 +7,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter_architecture_template/data/models/github/user_model.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
@@ -16,11 +17,11 @@ abstract class GithubLocalDataSource {
   Future<void> cacheReleases(
       List<GithubReleaseModel> releasesToCache, String repo);
 
-  /// Gets the cached [List<GithubReleaseModel>] which was gotten the last time
-  /// the user had an internet connection.
-  ///
-  /// Throws [CacheException] if no cached data is present.
   Future<List<GithubReleaseModel>> fetchLastReleases(String repo);
+
+  Future<void> cacheUser(GithubUserModel userToCache, String username);
+
+  Future<GithubUserModel> fetchCachedUser(String username);
 }
 
 class GithubLocalDataSourceImpl implements GithubLocalDataSource {
@@ -47,6 +48,25 @@ class GithubLocalDataSourceImpl implements GithubLocalDataSource {
               json.decode(jsonString) as List<dynamic>)
           .map((Map<String, dynamic> data) => GithubReleaseModel.fromJson(data))
           .toList();
+    } else {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<void> cacheUser(GithubUserModel userToCache, String username) {
+    return box.put(
+      username,
+      json.encode(userToCache.toJson()),
+    );
+  }
+
+  @override
+  Future<GithubUserModel> fetchCachedUser(String username) async {
+    final jsonString = box.get(username) as String;
+    if (jsonString != null) {
+      return GithubUserModel.fromJson(
+          json.decode(jsonString) as Map<String, dynamic>);
     } else {
       throw CacheException();
     }

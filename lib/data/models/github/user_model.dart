@@ -81,6 +81,7 @@ class GithubUserModel extends Equatable {
 
   factory GithubUserModel.fromJson(Map<String, dynamic> json) =>
       _$GithubUserModelFromJson(json);
+
   @override
   List<Object> get props => <Object>[
         login,
