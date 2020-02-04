@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/domain/entities/github/release.dart';
+part of 'github_releases_bloc.dart';
 
 @immutable
 abstract class GithubReleasesState extends Equatable {

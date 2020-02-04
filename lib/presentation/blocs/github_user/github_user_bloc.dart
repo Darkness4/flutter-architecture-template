@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
+
+part 'github_user_event.dart';
+part 'github_user_state.dart';
 
 class GithubUserBloc extends Bloc<GithubUserEvent, GithubUserState> {
   final GetGithubUser getGithubUser;

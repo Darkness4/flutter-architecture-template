@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'register_bloc.dart';
 
 @immutable
 class RegisterState extends Equatable {
@@ -11,7 +10,7 @@ class RegisterState extends Equatable {
 
   bool get isFormValid => isEmailValid && isPasswordValid;
 
-  RegisterState({
+  const RegisterState({
     @required this.isEmailValid,
     @required this.isPasswordValid,
     @required this.isSubmitting,

@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
+part of 'authentication_bloc.dart';
 
 abstract class AuthenticationState extends Equatable {
   const AuthenticationState();
@@ -8,7 +7,9 @@ abstract class AuthenticationState extends Equatable {
   List<Object> get props => [];
 }
 
-class Uninitialized extends AuthenticationState {}
+class Uninitialized extends AuthenticationState {
+  const Uninitialized();
+}
 
 class Authenticated extends AuthenticationState {
   final AppUser user;
@@ -22,4 +23,6 @@ class Authenticated extends AuthenticationState {
   String toString() => 'Authenticated ${user.props}';
 }
 
-class Unauthenticated extends AuthenticationState {}
+class Unauthenticated extends AuthenticationState {
+  const Unauthenticated();
+}

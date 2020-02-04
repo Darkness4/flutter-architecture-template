@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture_template/injection_container.dart';
-import 'package:flutter_architecture_template/presentation/blocs/main/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
 import 'package:flutter_architecture_template/presentation/pages/firebase_page.dart';
 import 'package:flutter_architecture_template/presentation/pages/github_releases_page.dart';
 import 'package:flutter_architecture_template/presentation/pages/github_user_page.dart';

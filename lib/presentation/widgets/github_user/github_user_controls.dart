@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_user/github_user_bloc.dart';
 
 class GithubUserControls extends StatefulWidget {
   const GithubUserControls({Key key}) : super(key: key);

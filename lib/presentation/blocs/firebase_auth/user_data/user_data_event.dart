@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
+part of 'user_data_bloc.dart';
 
 abstract class UserDataEvent extends Equatable {
   const UserDataEvent();

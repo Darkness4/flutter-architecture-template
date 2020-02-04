@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture_template/injection_container.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/register/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/register/register_bloc.dart';
 import 'package:flutter_architecture_template/presentation/widgets/firebase_auth/register_form.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

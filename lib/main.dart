@@ -3,9 +3,11 @@ import 'package:flutter_architecture_template/core/routes/routes.dart';
 import 'package:flutter_architecture_template/injection_container.dart' as di;
 import 'package:flutter_architecture_template/presentation/router.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   await di.init();
   runApp(MyApp());
 }

@@ -5,7 +5,7 @@ import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_releases/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_releases/github_releases_bloc.dart';
 
 void main() {
   GithubReleasesBloc bloc;

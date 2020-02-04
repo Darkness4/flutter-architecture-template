@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'user_data_bloc.dart';
 
 abstract class UserDataState extends Equatable {
   const UserDataState();
@@ -6,10 +6,18 @@ abstract class UserDataState extends Equatable {
   List<Object> get props => [];
 }
 
-class NotUpdatedState extends UserDataState {}
+class NotUpdatedState extends UserDataState {
+  const NotUpdatedState();
+}
 
-class LoadingState extends UserDataState {}
+class LoadingState extends UserDataState {
+  const LoadingState();
+}
 
-class UpdatedState extends UserDataState {}
+class UpdatedState extends UserDataState {
+  const UpdatedState();
+}
 
-class ErrorState extends UserDataState {}
+class ErrorState extends UserDataState {
+  const ErrorState();
+}

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/core/usecases/usecase.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_user.dart';
 import 'package:rxdart/rxdart.dart' show SwitchMapExtension;
 
-import 'bloc.dart';
+part 'authentication_event.dart';
+part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {

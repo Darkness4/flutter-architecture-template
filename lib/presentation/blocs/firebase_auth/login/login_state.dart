@@ -1,5 +1,4 @@
-import 'package:meta/meta.dart';
-import 'package:equatable/equatable.dart';
+part of 'login_bloc.dart';
 
 @immutable
 class LoginState extends Equatable {
@@ -11,7 +10,7 @@ class LoginState extends Equatable {
 
   bool get isFormValid => isEmailValid && isPasswordValid;
 
-  LoginState({
+  const LoginState({
     @required this.isEmailValid,
     @required this.isPasswordValid,
     @required this.isSubmitting,

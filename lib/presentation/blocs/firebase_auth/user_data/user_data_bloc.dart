@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/set_user_data.dart';
-import './bloc.dart';
+
+part 'user_data_event.dart';
+part 'user_data_state.dart';
 
 class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   final SetUserData setUserData;

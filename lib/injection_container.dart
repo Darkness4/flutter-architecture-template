@@ -24,15 +24,14 @@ import 'package:flutter_architecture_template/domain/usecases/firebase_auth/sign
 import 'package:flutter_architecture_template/domain/usecases/github/get_releases.dart';
 import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/login/bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/register/bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_releases/bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/login/login_bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/register/register_bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/user_data_bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_releases/github_releases_bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_user/github_user_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -52,7 +51,6 @@ Future<void> init() async {
   );
 
   //! External
-  await Hive.initFlutter();
   await Hive.openBox<dynamic>('prefs');
   sl.registerLazySingleton<Box<dynamic>>(() => Hive.box<dynamic>('prefs'));
   sl.registerLazySingleton<http.Client>(() => http.Client());

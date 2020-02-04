@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_user/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_user/github_user_bloc.dart';
 
 void main() {
   GithubUserBloc bloc;

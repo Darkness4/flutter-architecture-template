@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/core/validators.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signin.dart';
 import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
 
-import 'bloc.dart';
+part 'login_event.dart';
+part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final FirebaseAuthSignIn firebaseAuthSignIn;

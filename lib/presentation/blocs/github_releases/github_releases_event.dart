@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+part of 'github_releases_bloc.dart';
 
 class GetReleasesEvent extends GithubReleasesEvent {
   final String repo;

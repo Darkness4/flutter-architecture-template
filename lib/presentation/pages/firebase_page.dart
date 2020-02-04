@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture_template/injection_container.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/authentication/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
 import 'package:flutter_architecture_template/presentation/pages/firebase_auth/home_screen.dart';
 import 'package:flutter_architecture_template/presentation/pages/firebase_auth/login_screen.dart';
 import 'package:flutter_architecture_template/presentation/pages/firebase_auth/splash_screen.dart';

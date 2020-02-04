@@ -3,7 +3,7 @@ import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signout.dart';
 import 'package:flutter_architecture_template/injection_container.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/user_data_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
