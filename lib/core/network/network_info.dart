@@ -7,6 +7,7 @@ abstract class NetworkInfo {
 }
 
 @RegisterAs(NetworkInfo)
+@prod
 @lazySingleton
 @injectable
 class NetworkInfoImpl implements NetworkInfo {

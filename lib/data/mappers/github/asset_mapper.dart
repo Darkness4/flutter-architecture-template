@@ -5,6 +5,7 @@ import 'package:flutter_architecture_template/data/models/github/asset_model.dar
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 import 'package:injectable/injectable.dart';
 
+@prod
 @lazySingleton
 @injectable
 class GithubAssetMapper implements Mapper<GithubAsset, GithubAssetModel> {

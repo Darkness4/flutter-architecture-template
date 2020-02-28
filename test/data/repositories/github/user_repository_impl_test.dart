@@ -6,7 +6,9 @@ import 'package:flutter_architecture_template/data/datasources/github_local_data
 import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
 import 'package:flutter_architecture_template/data/repositories/github/user_repository_impl.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
@@ -16,16 +18,20 @@ import '../../../fixtures/fixture_reader.dart';
 
 void main() {
   UserRepositoryImpl repository;
-  MockRemoteDataSource mockRemoteDataSource;
-  MockGithubUserMapper mockGithubUserMapper;
-  MockNetworkInfo mockNetworkInfo;
-  MockLocalDataSource mockLocalDataSource;
+  GithubRemoteDataSource mockRemoteDataSource;
+  GithubUserMapper mockGithubUserMapper;
+  NetworkInfo mockNetworkInfo;
+  GithubLocalDataSource mockLocalDataSource;
+
+  setUpAll(() {
+    init(env: Environment.test);
+  });
 
   setUp(() {
-    mockRemoteDataSource = MockRemoteDataSource();
-    mockGithubUserMapper = MockGithubUserMapper();
-    mockLocalDataSource = MockLocalDataSource();
-    mockNetworkInfo = MockNetworkInfo();
+    mockRemoteDataSource = sl<GithubRemoteDataSource>();
+    mockGithubUserMapper = sl<GithubUserMapper>();
+    mockLocalDataSource = sl<GithubLocalDataSource>();
+    mockNetworkInfo = sl<NetworkInfo>();
     repository = UserRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
@@ -197,11 +203,3 @@ void main() {
     });
   });
 }
-
-class MockRemoteDataSource extends Mock implements GithubRemoteDataSource {}
-
-class MockGithubUserMapper extends Mock implements GithubUserMapper {}
-
-class MockLocalDataSource extends Mock implements GithubLocalDataSource {}
-
-class MockNetworkInfo extends Mock implements NetworkInfo {}

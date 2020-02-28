@@ -1,5 +1,7 @@
 import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
@@ -7,10 +9,14 @@ import 'package:flutter_architecture_template/presentation/blocs/github_user/git
 
 void main() {
   GithubUserBloc bloc;
-  MockGetGithubUser mockGetGithubUser;
+  GetGithubUser mockGetGithubUser;
+
+  setUpAll(() {
+    init(env: Environment.test);
+  });
 
   setUp(() {
-    mockGetGithubUser = MockGetGithubUser();
+    mockGetGithubUser = sl<GetGithubUser>();
 
     bloc = GithubUserBloc(getGithubUser: mockGetGithubUser);
   });
@@ -125,5 +131,3 @@ void main() {
     );
   });
 }
-
-class MockGetGithubUser extends Mock implements GetGithubUser {}

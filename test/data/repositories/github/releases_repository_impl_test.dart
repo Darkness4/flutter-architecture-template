@@ -5,7 +5,9 @@ import 'package:flutter_architecture_template/data/mappers/github/release_mapper
 import 'package:flutter_architecture_template/data/repositories/github/releases_repository_impl.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/core/network/network_info.dart';
@@ -18,16 +20,20 @@ import '../../../fixtures/fixture_reader.dart';
 
 void main() {
   ReleasesRepositoryImpl repository;
-  MockRemoteDataSource mockRemoteDataSource;
-  MockLocalDataSource mockLocalDataSource;
-  MockNetworkInfo mockNetworkInfo;
-  MockReleaseMapper mockReleaseMapper;
+  GithubRemoteDataSource mockRemoteDataSource;
+  GithubLocalDataSource mockLocalDataSource;
+  NetworkInfo mockNetworkInfo;
+  GithubReleaseMapper mockReleaseMapper;
+
+  setUpAll(() {
+    init(env: Environment.test);
+  });
 
   setUp(() {
-    mockRemoteDataSource = MockRemoteDataSource();
-    mockLocalDataSource = MockLocalDataSource();
-    mockNetworkInfo = MockNetworkInfo();
-    mockReleaseMapper = MockReleaseMapper();
+    mockRemoteDataSource = sl<GithubRemoteDataSource>();
+    mockLocalDataSource = sl<GithubLocalDataSource>();
+    mockNetworkInfo = sl<NetworkInfo>();
+    mockReleaseMapper = sl<GithubReleaseMapper>();
     repository = ReleasesRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
@@ -227,11 +233,3 @@ void main() {
     });
   });
 }
-
-class MockLocalDataSource extends Mock implements GithubLocalDataSource {}
-
-class MockNetworkInfo extends Mock implements NetworkInfo {}
-
-class MockRemoteDataSource extends Mock implements GithubRemoteDataSource {}
-
-class MockReleaseMapper extends Mock implements GithubReleaseMapper {}

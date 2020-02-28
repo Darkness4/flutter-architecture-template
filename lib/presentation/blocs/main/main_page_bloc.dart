@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 part 'main_page_event.dart';
 part 'main_page_state.dart';
 
+@prod
 @injectable
 class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   @override

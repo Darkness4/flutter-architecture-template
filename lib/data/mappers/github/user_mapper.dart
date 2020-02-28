@@ -3,6 +3,7 @@ import 'package:flutter_architecture_template/data/models/github/user_model.dart
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:injectable/injectable.dart';
 
+@prod
 @lazySingleton
 @injectable
 class GithubUserMapper implements Mapper<GithubUser, GithubUserModel> {

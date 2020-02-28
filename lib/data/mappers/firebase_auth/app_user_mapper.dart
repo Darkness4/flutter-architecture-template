@@ -3,6 +3,7 @@ import 'package:flutter_architecture_template/data/models/firebase_auth/app_user
 import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
 import 'package:injectable/injectable.dart';
 
+@prod
 @lazySingleton
 @injectable
 class AppUserMapper implements Mapper<AppUser, AppUserModel> {

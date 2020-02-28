@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 part 'user_data_event.dart';
 part 'user_data_state.dart';
 
+@prod
 @injectable
 class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   final SetUserData setUserData;

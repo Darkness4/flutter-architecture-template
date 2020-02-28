@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 part 'github_user_event.dart';
 part 'github_user_state.dart';
 
+@prod
 @injectable
 class GithubUserBloc extends Bloc<GithubUserEvent, GithubUserState> {
   final GetGithubUser getGithubUser;

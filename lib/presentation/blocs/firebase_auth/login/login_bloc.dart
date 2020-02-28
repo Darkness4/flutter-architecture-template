@@ -11,6 +11,7 @@ import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
 part 'login_event.dart';
 part 'login_state.dart';
 
+@prod
 @injectable
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final FirebaseAuthSignIn firebaseAuthSignIn;

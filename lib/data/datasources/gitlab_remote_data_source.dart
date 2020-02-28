@@ -15,6 +15,7 @@ abstract class GitlabRemoteDataSource {
 }
 
 @RegisterAs(GitlabRemoteDataSource)
+@prod
 @lazySingleton
 @injectable
 class GitlabRemoteDataSourceImpl implements GitlabRemoteDataSource {

@@ -6,6 +6,7 @@ import 'package:flutter_architecture_template/data/models/github/release_model.d
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 import 'package:injectable/injectable.dart';
 
+@prod
 @lazySingleton
 @injectable
 class GithubReleaseMapper implements Mapper<GithubRelease, GithubReleaseModel> {

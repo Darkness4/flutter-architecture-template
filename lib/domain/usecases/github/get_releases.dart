@@ -18,6 +18,7 @@ import 'package:flutter_architecture_template/domain/entities/github/release.dar
 import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
 import 'package:injectable/injectable.dart';
 
+@prod
 @lazySingleton
 @injectable
 class GetGithubReleases extends Usecase<Future<List<GithubRelease>>, String> {

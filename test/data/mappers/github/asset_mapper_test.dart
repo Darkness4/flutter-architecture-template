@@ -3,20 +3,22 @@ import 'package:flutter_architecture_template/data/mappers/github/user_mapper.da
 import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
-
-class MockGithubUserMapper extends Mock implements GithubUserMapper {}
-
-class MockGithubAssetMapper extends Mock implements GithubAssetMapper {}
 
 void main() {
   GithubAssetMapper mapper;
-  MockGithubUserMapper mockUserMapper;
+  GithubUserMapper mockUserMapper;
+
+  setUpAll(() {
+    init(env: Environment.test);
+  });
 
   setUp(() {
-    mockUserMapper = MockGithubUserMapper();
+    mockUserMapper = sl<GithubUserMapper>();
     mapper = GithubAssetMapper(
       userMapper: mockUserMapper,
     );

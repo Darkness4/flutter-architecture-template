@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 part 'github_releases_event.dart';
 part 'github_releases_state.dart';
 
+@prod
 @injectable
 class GithubReleasesBloc
     extends Bloc<GithubReleasesEvent, GithubReleasesState> {

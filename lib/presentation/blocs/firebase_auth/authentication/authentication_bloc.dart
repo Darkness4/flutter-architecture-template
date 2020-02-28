@@ -13,6 +13,7 @@ import 'package:rxdart/rxdart.dart' show SwitchMapExtension;
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
+@prod
 @injectable
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {

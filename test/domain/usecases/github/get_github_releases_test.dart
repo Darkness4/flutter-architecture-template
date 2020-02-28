@@ -3,17 +3,21 @@ import 'package:flutter_architecture_template/domain/entities/github/release.dar
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
 import 'package:flutter_architecture_template/domain/usecases/github/get_releases.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class MockReleasesRepository extends Mock implements ReleasesRepository {}
-
 void main() {
   GetGithubReleases usecase;
-  MockReleasesRepository mockReleasesRepository;
+  ReleasesRepository mockReleasesRepository;
+
+  setUpAll(() {
+    init(env: Environment.test);
+  });
 
   setUp(() {
-    mockReleasesRepository = MockReleasesRepository();
+    mockReleasesRepository = sl<ReleasesRepository>();
     usecase = GetGithubReleases(mockReleasesRepository);
   });
 

@@ -10,6 +10,7 @@ import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
 part 'register_event.dart';
 part 'register_state.dart';
 
+@prod
 @injectable
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final FirebaseAuthSignUp firebaseAuthSignUp;

@@ -18,6 +18,7 @@ abstract class GithubRemoteDataSource {
 }
 
 @RegisterAs(GithubRemoteDataSource)
+@prod
 @lazySingleton
 @injectable
 class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {

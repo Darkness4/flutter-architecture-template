@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 part 'gitlab_user_event.dart';
 part 'gitlab_user_state.dart';
 
+@prod
 @injectable
 class GitlabUserBloc extends Bloc<GitlabUserEvent, GitlabUserState> {
   final GetGitlabUser getGitlabUser;

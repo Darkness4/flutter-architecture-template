@@ -6,22 +6,24 @@ import 'package:flutter_architecture_template/data/models/github/release_model.d
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
-
-class MockGithubUserMapper extends Mock implements GithubUserMapper {}
-
-class MockGithubAssetMapper extends Mock implements GithubAssetMapper {}
 
 void main() {
   GithubReleaseMapper mapper;
-  MockGithubUserMapper mockUserMapper;
-  MockGithubAssetMapper mockAssetMapper;
+  GithubUserMapper mockUserMapper;
+  GithubAssetMapper mockAssetMapper;
+
+  setUpAll(() {
+    init(env: Environment.test);
+  });
 
   setUp(() {
-    mockAssetMapper = MockGithubAssetMapper();
-    mockUserMapper = MockGithubUserMapper();
+    mockAssetMapper = sl<GithubAssetMapper>();
+    mockUserMapper = sl<GithubUserMapper>();
     mapper = GithubReleaseMapper(
       assetMapper: mockAssetMapper,
       userMapper: mockUserMapper,

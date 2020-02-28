@@ -20,6 +20,7 @@ abstract class FirebaseAuthDataSource {
 }
 
 @RegisterAs(FirebaseAuthDataSource)
+@prod
 @lazySingleton
 @injectable
 class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {

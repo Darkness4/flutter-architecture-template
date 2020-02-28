@@ -7,6 +7,8 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter_architecture_template/core/box/box.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
@@ -25,10 +27,13 @@ abstract class GithubLocalDataSource {
 }
 
 @RegisterAs(GithubLocalDataSource)
+@prod
 @lazySingleton
 @injectable
 class GithubLocalDataSourceImpl implements GithubLocalDataSource {
-  final Box<dynamic> box = Hive.box<dynamic>('prefs');
+  final Box<String> box;
+
+  GithubLocalDataSourceImpl({@required this.box});
 
   @override
   Future<void> cacheReleases(
@@ -43,7 +48,7 @@ class GithubLocalDataSourceImpl implements GithubLocalDataSource {
 
   @override
   Future<List<GithubReleaseModel>> fetchLastReleases(String repo) async {
-    final jsonString = box.get(repo) as String;
+    final jsonString = box.get(repo);
     if (jsonString != null) {
       return List<Map<String, dynamic>>.from(
               json.decode(jsonString) as List<dynamic>)
@@ -64,7 +69,7 @@ class GithubLocalDataSourceImpl implements GithubLocalDataSource {
 
   @override
   Future<GithubUserModel> fetchCachedUser(String username) async {
-    final jsonString = box.get(username) as String;
+    final jsonString = box.get(username);
     if (jsonString != null) {
       return GithubUserModel.fromJson(
           json.decode(jsonString) as Map<String, dynamic>);

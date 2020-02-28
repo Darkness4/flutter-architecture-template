@@ -1,5 +1,7 @@
 import 'package:flutter_architecture_template/domain/usecases/github/get_releases.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
@@ -9,10 +11,14 @@ import 'package:flutter_architecture_template/presentation/blocs/github_releases
 
 void main() {
   GithubReleasesBloc bloc;
-  MockGetGithubReleases mockGetGithubReleases;
+  GetGithubReleases mockGetGithubReleases;
+
+  setUpAll(() {
+    init(env: Environment.test);
+  });
 
   setUp(() {
-    mockGetGithubReleases = MockGetGithubReleases();
+    mockGetGithubReleases = sl<GetGithubReleases>();
 
     bloc = GithubReleasesBloc(getGithubReleases: mockGetGithubReleases);
   });
@@ -171,5 +177,3 @@ void main() {
     );
   });
 }
-
-class MockGetGithubReleases extends Mock implements GetGithubReleases {}

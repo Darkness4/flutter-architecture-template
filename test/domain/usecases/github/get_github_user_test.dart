@@ -1,17 +1,21 @@
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
 import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
+import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class MockUserRepository extends Mock implements UserRepository {}
-
 void main() {
   GetGithubUser usecase;
-  MockUserRepository mockUserRepository;
+  UserRepository mockUserRepository;
+
+  setUpAll(() {
+    init(env: Environment.test);
+  });
 
   setUp(() {
-    mockUserRepository = MockUserRepository();
+    mockUserRepository = sl<UserRepository>();
     usecase = GetGithubUser(mockUserRepository);
   });
 
