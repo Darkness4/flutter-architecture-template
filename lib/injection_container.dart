@@ -29,8 +29,6 @@ abstract class RegisterModule {
   Firestore get firestore => Firestore.instance;
 }
 
-class SharedPreferences {}
-
 @test
 @RegisterAs(Connectivity)
 @injectable
