@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
@@ -18,7 +17,7 @@ void init({String env = Environment.prod}) => $initGetIt(sl, environment: env);
 abstract class RegisterModule {
   @prod
   @lazySingleton
-  Connectivity get prefs;
+  Connectivity get connectivity;
 
   @prod
   @lazySingleton
@@ -28,10 +27,9 @@ abstract class RegisterModule {
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   @prod
   Firestore get firestore => Firestore.instance;
-
-  @prod
-  Box<String> get box => Hive.box<String>('prefs');
 }
+
+class SharedPreferences {}
 
 @test
 @RegisterAs(Connectivity)
@@ -42,7 +40,3 @@ class MockDataConnectionChecker extends Mock implements Connectivity {}
 @RegisterAs(http.Client)
 @injectable
 class MockHttpClient extends Mock implements http.Client {}
-
-@test
-@injectable
-class MockBox extends Mock implements Box<String> {}

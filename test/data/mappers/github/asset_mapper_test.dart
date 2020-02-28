@@ -13,9 +13,7 @@ void main() {
   GithubAssetMapper mapper;
   GithubUserMapper mockUserMapper;
 
-  setUpAll(() {
-    init(env: Environment.test);
-  });
+  init(env: Environment.test);
 
   setUp(() {
     mockUserMapper = sl<GithubUserMapper>();

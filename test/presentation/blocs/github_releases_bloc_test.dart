@@ -13,9 +13,7 @@ void main() {
   GithubReleasesBloc bloc;
   GetGithubReleases mockGetGithubReleases;
 
-  setUpAll(() {
-    init(env: Environment.test);
-  });
+  init(env: Environment.test);
 
   setUp(() {
     mockGetGithubReleases = sl<GetGithubReleases>();

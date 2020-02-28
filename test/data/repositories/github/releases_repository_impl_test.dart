@@ -25,9 +25,7 @@ void main() {
   NetworkInfo mockNetworkInfo;
   GithubReleaseMapper mockReleaseMapper;
 
-  setUpAll(() {
-    init(env: Environment.test);
-  });
+  init(env: Environment.test);
 
   setUp(() {
     mockRemoteDataSource = sl<GithubRemoteDataSource>();

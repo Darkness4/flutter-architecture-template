@@ -4,40 +4,44 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
+import 'package:flutter_architecture_template/core/box_manager/box_manager.dart';
+import 'package:flutter_architecture_template/core/box_manager/mock_box_manager.dart';
+import 'package:flutter_architecture_template/core/network/mock_network_info.dart';
+import 'package:flutter_architecture_template/core/network/network_info.dart';
 import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
-import 'package:hive/hive.dart';
+import 'package:flutter_architecture_template/data/datasources/mock_github_local_data_source.dart';
+import 'package:flutter_architecture_template/data/datasources/mock_github_remote_data_source.dart';
+import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
 import 'package:flutter_architecture_template/data/mappers/firebase_auth/app_user_mapper.dart';
+import 'package:flutter_architecture_template/data/mappers/github/mock_asset_mapper.dart';
+import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.dart';
+import 'package:flutter_architecture_template/data/mappers/github/mock_release_mapper.dart';
+import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
+import 'package:flutter_architecture_template/data/mappers/github/mock_user_mapper.dart';
 import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
 import 'package:flutter_architecture_template/data/mappers/gitlab_user_mapper.dart';
+import 'package:flutter_architecture_template/data/repositories/github/releases_repository_impl.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
+import 'package:flutter_architecture_template/data/repositories/github/user_repository_impl.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/mock_releases_repository.dart';
+import 'package:flutter_architecture_template/domain/repositories/github/mock_user_repository.dart';
+import 'package:flutter_architecture_template/domain/usecases/github/get_releases.dart';
+import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
+import 'package:flutter_architecture_template/domain/usecases/github/mock_get_releases.dart';
+import 'package:flutter_architecture_template/domain/usecases/github/mock_get_user.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:http/src/client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_releases/github_releases_bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/github_user/github_user_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
-import 'package:flutter_architecture_template/data/datasources/mock_github_remote_data_source.dart';
-import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
-import 'package:flutter_architecture_template/data/datasources/mock_github_local_data_source.dart';
-import 'package:flutter_architecture_template/data/mappers/github/mock_asset_mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/mock_user_mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/mock_release_mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
-import 'package:flutter_architecture_template/domain/repositories/github/mock_user_repository.dart';
-import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
-import 'package:flutter_architecture_template/domain/repositories/github/mock_releases_repository.dart';
-import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
-import 'package:flutter_architecture_template/domain/usecases/github/mock_get_releases.dart';
-import 'package:flutter_architecture_template/domain/usecases/github/get_releases.dart';
-import 'package:flutter_architecture_template/domain/usecases/github/mock_get_user.dart';
-import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
-import 'package:flutter_architecture_template/core/network/network_info.dart';
 import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
 import 'package:flutter_architecture_template/data/datasources/gitlab_remote_data_source.dart';
 import 'package:flutter_architecture_template/data/repositories/firebase_auth/app_user_repository_impl.dart';
 import 'package:flutter_architecture_template/domain/repositories/firebase_auth/app_user_repository.dart';
-import 'package:flutter_architecture_template/data/repositories/github/releases_repository_impl.dart';
-import 'package:flutter_architecture_template/data/repositories/github/user_repository_impl.dart';
 import 'package:flutter_architecture_template/data/repositories/gitlab_user_repository_impl.dart';
 import 'package:flutter_architecture_template/domain/repositories/gitlab_user_repository.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_auth_state.dart';
@@ -51,8 +55,6 @@ import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/a
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/login/login_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/register/register_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/user_data_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_releases/github_releases_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_user/github_user_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/gitlab_user/gitlab_user_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -61,18 +63,46 @@ void $initGetIt(GetIt g, {String environment}) {
 
   //Register prod Dependencies --------
   if (environment == 'prod') {
+    g.registerLazySingleton<BoxManager>(() => BoxManagerImpl());
     g.registerLazySingleton<GithubLocalDataSource>(
         () => GithubLocalDataSourceImpl(
-              box: g<Box<String>>(),
+              boxManager: g<BoxManager>(),
             ));
     g.registerLazySingleton<AppUserMapper>(() => AppUserMapper());
+    g.registerLazySingleton<GithubReleaseMapper>(() => GithubReleaseMapper(
+          userMapper: g<GithubUserMapper>(),
+          assetMapper: g<GithubAssetMapper>(),
+        ));
     g.registerLazySingleton<GithubUserMapper>(() => GithubUserMapper());
     g.registerLazySingleton<GitlabUserMapper>(() => GitlabUserMapper());
-    g.registerLazySingleton<Connectivity>(() => registerModule.prefs);
+    g.registerLazySingleton<ReleasesRepository>(() => ReleasesRepositoryImpl(
+          localDataSource: g<GithubLocalDataSource>(),
+          remoteDataSource: g<GithubRemoteDataSource>(),
+          networkInfo: g<NetworkInfo>(),
+          releaseMapper: g<GithubReleaseMapper>(),
+        ));
+    g.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
+          remoteDataSource: g<GithubRemoteDataSource>(),
+          localDataSource: g<GithubLocalDataSource>(),
+          networkInfo: g<NetworkInfo>(),
+          mapper: g<GithubUserMapper>(),
+        ));
+    g.registerLazySingleton<GetGithubReleases>(() => GetGithubReleases(
+          g<ReleasesRepository>(),
+        ));
+    g.registerLazySingleton<GetGithubUser>(() => GetGithubUser(
+          g<UserRepository>(),
+        ));
+    g.registerLazySingleton<Connectivity>(() => registerModule.connectivity);
     g.registerLazySingleton<Client>(() => registerModule.httpClient);
     g.registerFactory<FirebaseAuth>(() => registerModule.firebaseAuth);
     g.registerFactory<Firestore>(() => registerModule.firestore);
-    g.registerFactory<Box>(() => registerModule.box);
+    g.registerFactory<GithubReleasesBloc>(() => GithubReleasesBloc(
+          getGithubReleases: g<GetGithubReleases>(),
+        ));
+    g.registerFactory<GithubUserBloc>(() => GithubUserBloc(
+          getGithubUser: g<GetGithubUser>(),
+        ));
     g.registerFactory<MainPageBloc>(() => MainPageBloc());
     g.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(
           g<Connectivity>(),
@@ -93,25 +123,9 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerLazySingleton<GithubAssetMapper>(() => GithubAssetMapper(
           userMapper: g<GithubUserMapper>(),
         ));
-    g.registerLazySingleton<GithubReleaseMapper>(() => GithubReleaseMapper(
-          userMapper: g<GithubUserMapper>(),
-          assetMapper: g<GithubAssetMapper>(),
-        ));
     g.registerLazySingleton<AppUserRepository>(() => AppUserRepositoryImpl(
           dataSource: g<FirebaseAuthDataSource>(),
           userMapper: g<AppUserMapper>(),
-        ));
-    g.registerLazySingleton<ReleasesRepository>(() => ReleasesRepositoryImpl(
-          localDataSource: g<GithubLocalDataSource>(),
-          remoteDataSource: g<GithubRemoteDataSource>(),
-          networkInfo: g<NetworkInfo>(),
-          releaseMapper: g<GithubReleaseMapper>(),
-        ));
-    g.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
-          remoteDataSource: g<GithubRemoteDataSource>(),
-          localDataSource: g<GithubLocalDataSource>(),
-          networkInfo: g<NetworkInfo>(),
-          mapper: g<GithubUserMapper>(),
         ));
     g.registerLazySingleton<GitlabUserRepository>(
         () => GitlabUserRepositoryImpl(
@@ -139,12 +153,6 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerLazySingleton<GetGitlabUser>(() => GetGitlabUser(
           g<GitlabUserRepository>(),
         ));
-    g.registerLazySingleton<GetGithubReleases>(() => GetGithubReleases(
-          g<ReleasesRepository>(),
-        ));
-    g.registerLazySingleton<GetGithubUser>(() => GetGithubUser(
-          g<UserRepository>(),
-        ));
     g.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
           getAuthState: g<GetAuthState>(),
           getAppUser: g<GetAppUser>(),
@@ -158,12 +166,6 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerFactory<UserDataBloc>(() => UserDataBloc(
           setUserData: g<SetUserData>(),
         ));
-    g.registerFactory<GithubReleasesBloc>(() => GithubReleasesBloc(
-          getGithubReleases: g<GetGithubReleases>(),
-        ));
-    g.registerFactory<GithubUserBloc>(() => GithubUserBloc(
-          getGithubUser: g<GetGithubUser>(),
-        ));
     g.registerFactory<GitlabUserBloc>(() => GitlabUserBloc(
           getGitlabUser: g<GetGitlabUser>(),
         ));
@@ -171,22 +173,23 @@ void $initGetIt(GetIt g, {String environment}) {
 
   //Register test Dependencies --------
   if (environment == 'test') {
-    g.registerFactory<Connectivity>(() => MockDataConnectionChecker());
-    g.registerFactory<Client>(() => MockHttpClient());
-    g.registerFactory<MockBox>(() => MockBox());
+    g.registerLazySingleton<BoxManager>(() => MockBoxManager());
+    g.registerFactory<NetworkInfo>(() => MockNetworkInfo());
+    g.registerFactory<GithubLocalDataSource>(() => MockGithubLocalDataSource());
     g.registerFactory<GithubRemoteDataSource>(
         () => MockGithubRemoteDataSource());
-    g.registerFactory<GithubLocalDataSource>(() => MockGithubLocalDataSource());
     g.registerFactory<GithubAssetMapper>(() => MockGithubAssetMapper());
-    g.registerFactory<GithubUserMapper>(() => MockGithubUserMapper());
     g.registerFactory<GithubReleaseMapper>(() => MockGithubReleaseMapper());
-    g.registerFactory<UserRepository>(() => MockUserRepository());
+    g.registerFactory<GithubUserMapper>(() => MockGithubUserMapper());
     g.registerFactory<ReleasesRepository>(() => MockReleasesRepository());
+    g.registerFactory<UserRepository>(() => MockUserRepository());
     g.registerFactory<GetGithubReleases>(() => MockGetGithubReleases());
     g.registerFactory<GetGithubUser>(() => MockGetGithubUser());
+    g.registerFactory<Connectivity>(() => MockDataConnectionChecker());
+    g.registerFactory<Client>(() => MockHttpClient());
   }
 }
 
 class _$RegisterModule extends RegisterModule {
-  Connectivity get prefs => Connectivity();
+  Connectivity get connectivity => Connectivity();
 }

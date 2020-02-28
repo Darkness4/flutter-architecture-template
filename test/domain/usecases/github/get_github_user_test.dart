@@ -10,9 +10,7 @@ void main() {
   GetGithubUser usecase;
   UserRepository mockUserRepository;
 
-  setUpAll(() {
-    init(env: Environment.test);
-  });
+  init(env: Environment.test);
 
   setUp(() {
     mockUserRepository = sl<UserRepository>();

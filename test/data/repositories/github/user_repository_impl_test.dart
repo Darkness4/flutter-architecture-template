@@ -23,9 +23,7 @@ void main() {
   NetworkInfo mockNetworkInfo;
   GithubLocalDataSource mockLocalDataSource;
 
-  setUpAll(() {
-    init(env: Environment.test);
-  });
+  init(env: Environment.test);
 
   setUp(() {
     mockRemoteDataSource = sl<GithubRemoteDataSource>();

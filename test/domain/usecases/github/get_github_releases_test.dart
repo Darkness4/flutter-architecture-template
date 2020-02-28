@@ -12,9 +12,7 @@ void main() {
   GetGithubReleases usecase;
   ReleasesRepository mockReleasesRepository;
 
-  setUpAll(() {
-    init(env: Environment.test);
-  });
+  init(env: Environment.test);
 
   setUp(() {
     mockReleasesRepository = sl<ReleasesRepository>();

@@ -11,9 +11,7 @@ void main() {
   GithubUserBloc bloc;
   GetGithubUser mockGetGithubUser;
 
-  setUpAll(() {
-    init(env: Environment.test);
-  });
+  init(env: Environment.test);
 
   setUp(() {
     mockGetGithubUser = sl<GetGithubUser>();

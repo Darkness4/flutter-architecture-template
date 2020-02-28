@@ -19,9 +19,7 @@ void main() {
   const String tRepo = 'Darkness4/minitel-app';
   const String tUser = 'Darkness4';
 
-  setUpAll(() {
-    init(env: Environment.test);
-  });
+  init(env: Environment.test);
 
   setUp(() {
     mockHttpClient = sl<http.Client>();
