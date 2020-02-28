@@ -19,9 +19,7 @@ void main() {
 
   setUp(() {
     mockBox = MockBox();
-    dataSource = GithubLocalDataSourceImpl(
-      box: mockBox,
-    );
+    dataSource = GithubLocalDataSourceImpl();
   });
 
   group('fetchLastReleases', () {

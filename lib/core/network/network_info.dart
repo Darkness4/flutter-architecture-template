@@ -1,10 +1,14 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class NetworkInfo {
   Future<ConnectivityResult> get result;
 }
 
+@RegisterAs(NetworkInfo)
+@lazySingleton
+@injectable
 class NetworkInfoImpl implements NetworkInfo {
   final Connectivity connectionChecker;
 

@@ -4,6 +4,7 @@ import 'package:flutter_architecture_template/presentation/blocs/main/main_page_
 import 'package:flutter_architecture_template/presentation/pages/firebase_page.dart';
 import 'package:flutter_architecture_template/presentation/pages/github_releases_page.dart';
 import 'package:flutter_architecture_template/presentation/pages/github_user_page.dart';
+import 'package:flutter_architecture_template/presentation/pages/gitlab_user_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPage extends StatelessWidget {
@@ -34,6 +35,7 @@ class MainPage extends StatelessWidget {
       children: const <Widget>[
         GithubReleasesPage(),
         GithubUserPage(),
+        GitlabUserPage(),
         FirebasePage(),
       ],
     );
@@ -42,6 +44,7 @@ class MainPage extends StatelessWidget {
   BottomNavigationBar buildBottomNavBar(
       BuildContext context, MainPageState state) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
       onTap: (int i) => onTabTapped(context, i),
       currentIndex: state.currentIndex,
       items: [
@@ -51,7 +54,11 @@ class MainPage extends StatelessWidget {
         ),
         const BottomNavigationBarItem(
           icon: Icon(Icons.access_alarm),
-          title: Text('User'),
+          title: Text('Github User'),
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.vpn_key),
+          title: Text('Gitlab User'),
         ),
         const BottomNavigationBarItem(
           icon: Icon(Icons.access_alarm),

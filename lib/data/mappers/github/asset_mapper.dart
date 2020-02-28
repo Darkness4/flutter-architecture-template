@@ -3,7 +3,10 @@ import 'package:flutter_architecture_template/core/mappers/mapper.dart';
 import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
 import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
 import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
+@injectable
 class GithubAssetMapper implements Mapper<GithubAsset, GithubAssetModel> {
   final GithubUserMapper userMapper;
 

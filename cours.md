@@ -3,7 +3,6 @@
 [TOC]
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ## Un exo pour suivre
 
 Prenez le template qu'on utilisera pour la formation :
@@ -70,7 +69,7 @@ class Person {
 
 Ceci ne rajoute AUCUNE sécurité en plus.
 
-Cependant :
+Cependant, pour l'équivalence des données :
 
 ```dart
 class Person {
@@ -82,7 +81,7 @@ class Person {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-Ou juste :
+Ou juste un read-only :
 
 ```dart
 class Person {
@@ -92,7 +91,7 @@ class Person {
 }
 ```
 
-Ou mieux :
+Ou mieux, une couche d'abstraction :
 
 ```dart
 abstract class LivingBeing {
@@ -503,7 +502,7 @@ Une violation serait de ce type :
 
 ![img](cours.assets/ilxzO.jpg)
 
-Ici, RubberDuck hérite de Duck. Cependant, il modifie le comportement de P en faisant crasher le programme P (`UnexpectedBehaviorException`) quand RubberDuck n'a pas de batterie. Ceci est une claire violation du LSP.
+Ici, RubberDuck hérite de Duck. Cependant, il modifie le comportement de P en faisant crasher le programme P quand RubberDuck n'a pas de batterie. Ceci est une claire violation du LSP, car il l'implémentation provque une **effet secondaire non géré**.
 
 <div style="page-break-after: always; break-after: page;"></div>
 ### Interface Segregation Principle
@@ -520,7 +519,7 @@ Solution :
 
 (U1Ops serait l'équivalent du téléphone, U2Ops = talkie-walkie, U3Ops = sirène)
 
-On évite de se coller des fonctions qui n'ont aucun rapport par rapport à l'utilisateur.
+En mettant en place des interface, on évite de se coller des fonctions qui n'ont aucun rapport par rapport à l'utilisateur.
 
 <div style="page-break-after: always; break-after: page;"></div>
 ### Dependency Inversion Principle
@@ -559,7 +558,7 @@ Bas-niveau :
 ```dart
 class ServiceImpl implements Service {
   @override
-  void use() {}
+  void use() => print("Hello World !");
 }
 
 class ServiceFactoryImpl implements ServiceFactory {
@@ -572,14 +571,48 @@ class ServiceFactoryImpl implements ServiceFactory {
 
 ```dart
 void main() {
-  ServiceFactory serviceFactory = ServiceFactoryImpl();  // Only once
-  Service service = ServiceFactoryImpl.makeSvc();
+  ServiceFactory serviceFactory = ServiceFactoryImpl(); // Only once
+  Service service = serviceFactory.makeSvc();
   App app = App(service);
   app.useService();
 }
 ```
 
-A la place d'un service factory, on utilisera un container de dépendances qui fera de l'injection de dépendances.
+En utilisant les fonctionnalités Dart :
+
+```dart
+class App {
+  final Service service;
+
+  App(this.service);
+
+  void useService() => service.use();
+}
+
+abstract class Service {
+  void use();
+}
+
+class ServiceImpl implements Service {
+  static final Service _singletonService = ServiceImpl._internal();
+
+  ServiceImpl._internal();
+
+  factory ServiceImpl.makeSvc() => _singletonService;
+
+  @override
+  void use() => print("Hello World !");
+}
+
+void main() {
+  Service service = ServiceImpl.makeSvc(); // Only once
+  App app = App(service);
+  app.useService();
+}
+
+```
+
+A la place d'un factory, on utilisera un container de dépendances qui fera de l'injection de dépendances. On pourra faire des facotry, singletons et lazySingletons.
 
 <div style="page-break-after: always; break-after: page;"></div>
 ## Clean Architecture par Uncle Bob (Robert C. Martin)
@@ -640,6 +673,8 @@ A chaque fois, que le flux de contrôle est inversée par rapport au dépendance
 
 <div style="page-break-after: always; break-after: page;"></div>
 ## Clean Architecture par Matej Rešetár
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/KjE2IDphA_U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### Couche Data
 
@@ -1246,7 +1281,6 @@ abstract class Mapper<I, O> {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 Mapper
 
 ```dart
@@ -1457,7 +1491,6 @@ class GetGithubUser extends Usecase<Future<GithubUser>, String> {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ##### Test unitaires
 
 ```dart
@@ -1543,7 +1576,6 @@ Essayez donc de :
 On utilisera bien évidemment `Equatable` et `json_serializable`.
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 **Pour implémenter un model :**
 
 ```dart
@@ -1591,7 +1623,6 @@ flutter pub run build_runner build
 Le tutoriel de `json_serializable` : https://flutter.dev/docs/development/data-and-backend/json#serializing-json-using-code-generation-libraries
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 **Pour implémenter un entity**
 
 ```dart
@@ -1698,7 +1729,6 @@ class ServerException implements Exception {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ##### 3. Repository
 
 Vu que l'on a qu'un data source, c'est très rapide :
@@ -1755,6 +1785,12 @@ Et voila ! Le backend est rapidement terminé !
 
 <div style="page-break-after: always; break-after: page;"></div>
 ### Couche Presentation
+
+Voir [bloclibrary.dev](https://bloclibrary.dev/)
+
+Crash course :
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hTExlt1nJZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 #### BLoC (presentation logic holder)
 
@@ -1965,7 +2001,6 @@ void main() {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ##### Pratique
 
 ###### 5. Events
@@ -2018,7 +2053,6 @@ class GitlabUserStateLoading extends GitlabUserState {}
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ###### 7. BLoC
 
 On map l'event aux états :
@@ -2102,7 +2136,6 @@ BlocBuilder<Bloc, BlocState>(
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 **BlocListener** s'active à chaque changement d'état.
 
 ```dart
@@ -2140,7 +2173,6 @@ BlocConsumer<Bloc, BlocAtate>(
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 Du coup, on veut juste faire varier l'état de la page :
 
 ```dart
@@ -2184,7 +2216,6 @@ class GithubUserPage extends StatelessWidget {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ###### Contrôle
 
 Ici, on utilise un TextField :
@@ -2233,7 +2264,6 @@ class _GithubUserControlsState extends State<GithubUserControls> {
 NOTE : Remarquez qu'on utilise un StatefulWidget. Une implémentation pure du BLoC aurait remplacé ce Stateful Widget par un autre BLoC tel que `GithubUserSearchBLoC`.
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ###### Display
 
 Il faut juste afficher les données de l'entity.
@@ -2295,7 +2325,6 @@ GetIt est une solution d'injection de dépendance. BLoC permet également de fai
 GetIt peut créer un DI Container. Il également faire des singletons, en plus des factories. Il est également possible de faire des **LazySingleton**, soit, des singletons instanciés uniquement à l'usage.
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ##### Code
 
 ```dart
@@ -2367,9 +2396,79 @@ Future<void> initDatasources() async {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
+#### [New] Injectable
+
+##### Rôle
+
+En se basant sur GetIt et `build_runner`, le paquet `injectable` est capable d'annoter les classes qui peuvent s'injecter dans d'autres classes. Le comportement devient similaire à celui de [Angular](https://angular.io/guide/dependency-injection).
+
+**Example :**
+
+```dart
+@lazySingleton
+@injectable
+class GetGitlabUser extends Usecase<Future<GitlabUser>, String> {
+  final GitlabUserRepository repository;
+
+  GetGitlabUser(this.repository);
+
+  @override
+  Future<GitlabUser> call(String username) {
+    return repository.getUser(username);
+  }
+}
+```
+
+Les anotations `@injectable` et `@lazySingleton` permettent de générer dans l'`injection_container` en lançant la commande `flutter pub run build_runner build` :
+
+```dart
+// extrait injection_container.iconfig.dart
+void $initGetIt(GetIt g, {String environment}) {
+    g.registerLazySingleton<GetGitlabUser>(() => GetGitlabUser(
+        g<GitlabUserRepository>(),
+      ));
+}
+```
+
+```dart
+// injection_container.dart
+import 'injection_container.iconfig.dart';
+
+final sl = GetIt.instance;
+
+@injectableInit
+void init() => $initGetIt(sl);
+```
+
+Pour les dépendances externes :
+
+```dart
+@registerModule
+abstract class RegisterModule {
+  @lazySingleton
+  Connectivity get prefs;  // Lazy Singleton Implicite => Connectivity()
+
+  @lazySingleton
+  http.Client get httpClient => http.Client();  // Lazy Singleton Explicite
+
+  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;  // Factory Explicite
+  Firestore get firestore => Firestore.instance;
+}
+```
+
+Un guide complet est accessible sur [pub.dev](https://pub.dev/packages/injectable).
+
+Ou via la video :
+
+https://www.youtube.com/watch?v=KNcP8z0hWqs
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/KNcP8z0hWqs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+
 #### Pratique
 
-##### 8. Injection de dépendances
+##### 8. [Outdated] Injection de dépendances
 
 Mettons nos instances :
 
@@ -2420,6 +2519,161 @@ Future<void> initDatasources() async {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
+##### 8. [New] Injection de dépendances
+
+L'objectif est d'anoter maintenant toutes nos classes. 
+
+Tout les "services" (couche data et domain) sont des LazySingletons car ils peuvent être appelés par plusieurs classes différentes.
+
+Par contre les BLoC doivent être des factories puisqu'on ne souhaite pas garder leur états.
+
+Les classes abstraites n'ont pas besoin d'être anoté. Du coup, voici la liste, :
+
+```dart
+// Core
+// network_info.dart
+@RegisterAs(NetworkInfo)
+@lazySingleton
+@injectable
+class NetworkInfoImpl implements NetworkInfo
+
+// Datasources
+// github_local_data_source.dart
+@RegisterAs(GithubLocalDataSource)
+@lazySingleton
+@injectable
+class GithubLocalDataSourceImpl implements GithubLocalDataSource
+
+// github_remote_data_source.dart
+@RegisterAs(GithubRemoteDataSource)
+@lazySingleton
+@injectable
+class GithubRemoteDataSourceImpl implements GithubRemoteDataSource
+
+// gitlab_remote_data_source.dart
+@RegisterAs(GitlabRemoteDataSource)
+@lazySingleton
+@injectable
+class GitlabRemoteDataSourceImpl implements GitlabRemoteDataSource
+
+// Mapper
+// asset_mapper.dart
+@lazySingleton
+@injectable
+class GithubAssetMapper implements Mapper<GithubAsset, GithubAssetModel>
+
+// release_mapper.dart
+@lazySingleton
+@injectable
+class GithubReleaseMapper implements Mapper<GithubRelease, GithubReleaseModel>
+
+// user_mapper.dart
+@lazySingleton
+@injectable
+class GithubUserMapper implements Mapper<GithubUser, GithubUserModel>
+
+// gitlab_user_mapper.dart
+@lazySingleton
+@injectable
+class GitlabUserMapper implements Mapper<GitlabUser, GitlabUserModel>
+
+// Repositories
+// releases_repository_impl.dart
+@RegisterAs(ReleasesRepository)
+@lazySingleton
+@injectable
+class ReleasesRepositoryImpl implements ReleasesRepository
+
+// user_repository_impl.dart
+@RegisterAs(UserRepository)
+@lazySingleton
+@injectable
+class UserRepositoryImpl implements UserRepository
+
+// gitlab_user_repository_impl.dart
+@RegisterAs(GitlabUserRepository)
+@lazySingleton
+@injectable
+class GitlabUserRepositoryImpl implements GitlabUserRepository
+
+// Usecases
+// get_releases.dart
+@lazySingleton
+@injectable
+class GetGithubReleases extends Usecase<Future<List<GithubRelease>>, String>
+
+// get_user.dart
+@lazySingleton
+@injectable
+class GetGithubUser extends Usecase<Future<GithubUser>, String>
+
+// get_gitlab_user.dart
+@lazySingleton
+@injectable
+class GetGitlabUser extends Usecase<Future<GitlabUser>, String>
+
+// Blocs
+// github_releases_bloc.dart
+@injectable
+class GithubReleasesBloc
+    extends Bloc<GithubReleasesEvent, GithubReleasesState>
+
+// github_releases_bloc.dart
+@injectable
+class GithubUserBloc extends Bloc<GithubUserEvent, GithubUserState>
+
+// gitlab_user_bloc.dart
+@injectable
+class GitlabUserBloc extends Bloc<GitlabUserEvent, GitlabUserState>
+
+// main_page_bloc.dart
+@injectable
+class MainPageBloc extends Bloc<MainPageEvent, MainPageState>
+```
+
+```dart
+// injection_container.dart
+import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+
+import 'injection_container.iconfig.dart';
+
+final sl = GetIt.instance;
+
+@injectableInit
+void init() => $initGetIt(sl);
+
+@registerModule
+abstract class RegisterModule {
+  @lazySingleton
+  Connectivity get prefs;
+
+  @lazySingleton
+  http.Client get httpClient => http.Client();
+
+  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
+  Firestore get firestore => Firestore.instance;
+}
+
+```
+
+Puis lancez la commande :
+
+```sh
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+Ou, en watch (build à chaque changement de fichier) :
+
+```sh
+flutter pub run build_runner watch --delete-conflicting-outputs
+```
+
+<div style="page-break-after: always; break-after: page;"></div>
 
 ##### 9. Page et Routing
 
@@ -2466,7 +2720,6 @@ class GitlabUserPage extends StatelessWidget {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 Et on fait le routage (voir `lib/presentation/pages/main_page.dart`) :
 
 ```dart
@@ -2527,7 +2780,6 @@ class MainPage extends StatelessWidget {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 ##### 10. Contrôle et Display
 
 Contrôle
@@ -2574,7 +2826,6 @@ class _GitlabUserControlsState extends State<GitlabUserControls> {
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
-
 Display
 
 ```dart

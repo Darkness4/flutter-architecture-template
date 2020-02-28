@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/repositories/firebase_auth/app_user_repository.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
+@injectable
 class FirebaseAuthSignUp
     extends Usecase<Future<AuthResult>, SignUpCredentials> {
   final AppUserRepository repository;

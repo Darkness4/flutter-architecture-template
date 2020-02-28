@@ -4,7 +4,10 @@ import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.d
 import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
 import 'package:flutter_architecture_template/data/models/github/release_model.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
+@injectable
 class GithubReleaseMapper implements Mapper<GithubRelease, GithubReleaseModel> {
   final GithubUserMapper userMapper;
   final GithubAssetMapper assetMapper;

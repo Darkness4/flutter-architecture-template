@@ -9,7 +9,7 @@ import 'dart:convert';
 
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
 import 'package:hive/hive.dart';
-import 'package:meta/meta.dart';
+import 'package:injectable/injectable.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/data/models/github/release_model.dart';
 
@@ -24,10 +24,11 @@ abstract class GithubLocalDataSource {
   Future<GithubUserModel> fetchCachedUser(String username);
 }
 
+@RegisterAs(GithubLocalDataSource)
+@lazySingleton
+@injectable
 class GithubLocalDataSourceImpl implements GithubLocalDataSource {
-  final Box<dynamic> box;
-
-  GithubLocalDataSourceImpl({@required this.box});
+  final Box<dynamic> box = Hive.box<dynamic>('prefs');
 
   @override
   Future<void> cacheReleases(

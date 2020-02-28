@@ -1,182 +1,28 @@
+import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_architecture_template/core/network/network_info.dart';
-import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
-import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
-import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
-import 'package:flutter_architecture_template/data/mappers/firebase_auth/app_user_mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
-import 'package:flutter_architecture_template/data/repositories/firebase_auth/app_user_repository_impl.dart';
-import 'package:flutter_architecture_template/data/repositories/github/releases_repository_impl.dart';
-import 'package:flutter_architecture_template/data/repositories/github/user_repository_impl.dart';
-import 'package:flutter_architecture_template/domain/repositories/firebase_auth/app_user_repository.dart';
-import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
-import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_auth_state.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_user.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/set_user_data.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signin.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signout.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signup.dart';
-import 'package:flutter_architecture_template/domain/usecases/github/get_releases.dart';
-import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/login/login_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/register/register_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/user_data_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_releases/github_releases_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_user/github_user_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
-final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-final Firestore firestore = Firestore.instance;
-final GetIt sl = GetIt.instance;
+import 'injection_container.iconfig.dart';
 
-Future<void> init() async {
-  await initBlocs();
-  await initUsecases();
-  await initRepositories();
-  await initMappers();
-  await initDatasources();
+final sl = GetIt.instance;
 
-  //! Core
-  sl.registerLazySingleton<NetworkInfo>(
-    () => NetworkInfoImpl(sl<Connectivity>()),
-  );
+const prod = const Environment('prod');
+const test = const Environment('test');
 
-  //! External
-  await Hive.openBox<dynamic>('prefs');
-  sl.registerLazySingleton<Box<dynamic>>(() => Hive.box<dynamic>('prefs'));
-  sl.registerLazySingleton<http.Client>(() => http.Client());
-  sl.registerLazySingleton<Connectivity>(() => Connectivity());
-}
+@injectableInit
+void init() => $initGetIt(sl);
 
-Future<void> initBlocs() async {
-  sl.registerFactory(
-    () => MainPageBloc(),
-  );
-  sl.registerFactory(
-    () => GithubReleasesBloc(
-      getGithubReleases: sl<GetGithubReleases>(),
-    ),
-  );
-  sl.registerFactory(
-    () => GithubUserBloc(
-      getGithubUser: sl<GetGithubUser>(),
-    ),
-  );
-  sl.registerFactory(
-    () => LoginBloc(
-      firebaseAuthSignIn: sl<FirebaseAuthSignIn>(),
-    ),
-  );
-  sl.registerFactory(
-    () => AuthenticationBloc(
-      getAppUser: sl<GetAppUser>(),
-      getAuthState: sl<GetAuthState>(),
-    ),
-  );
-  sl.registerFactory(
-    () => RegisterBloc(
-      firebaseAuthSignUp: sl<FirebaseAuthSignUp>(),
-    ),
-  );
-  sl.registerFactory(
-    () => UserDataBloc(
-      setUserData: sl<SetUserData>(),
-    ),
-  );
-}
+@registerModule
+abstract class RegisterModule {
+  @lazySingleton
+  Connectivity get prefs;
 
-Future<void> initUsecases() async {
-  sl.registerLazySingleton(
-    () => GetGithubUser(sl<UserRepository>()),
-  );
-  sl.registerLazySingleton(
-    () => GetGithubReleases(sl<ReleasesRepository>()),
-  );
-  sl.registerLazySingleton(
-    () => GetAuthState(sl<AppUserRepository>()),
-  );
-  sl.registerLazySingleton(
-    () => GetAppUser(sl<AppUserRepository>()),
-  );
-  sl.registerLazySingleton(
-    () => FirebaseAuthSignIn(sl<AppUserRepository>()),
-  );
-  sl.registerLazySingleton(
-    () => FirebaseAuthSignOut(sl<AppUserRepository>()),
-  );
-  sl.registerLazySingleton(
-    () => FirebaseAuthSignUp(sl<AppUserRepository>()),
-  );
-  sl.registerLazySingleton(
-    () => SetUserData(sl<AppUserRepository>()),
-  );
-}
+  @lazySingleton
+  http.Client get httpClient => http.Client();
 
-Future<void> initRepositories() async {
-  sl.registerLazySingleton<ReleasesRepository>(
-    () => ReleasesRepositoryImpl(
-      localDataSource: sl<GithubLocalDataSource>(),
-      networkInfo: sl<NetworkInfo>(),
-      remoteDataSource: sl<GithubRemoteDataSource>(),
-      releaseMapper: sl<GithubReleaseMapper>(),
-    ),
-  );
-  sl.registerLazySingleton<UserRepository>(
-    () => UserRepositoryImpl(
-      remoteDataSource: sl<GithubRemoteDataSource>(),
-      localDataSource: sl<GithubLocalDataSource>(),
-      mapper: sl<GithubUserMapper>(),
-      networkInfo: sl<NetworkInfo>(),
-    ),
-  );
-  sl.registerLazySingleton<AppUserRepository>(
-    () => AppUserRepositoryImpl(
-      dataSource: sl<FirebaseAuthDataSource>(),
-      userMapper: sl<AppUserMapper>(),
-    ),
-  );
-}
-
-Future<void> initMappers() async {
-  sl.registerLazySingleton<GithubAssetMapper>(
-    () => GithubAssetMapper(userMapper: sl<GithubUserMapper>()),
-  );
-  sl.registerLazySingleton<GithubUserMapper>(
-    () => const GithubUserMapper(),
-  );
-  sl.registerLazySingleton<GithubReleaseMapper>(
-    () => GithubReleaseMapper(
-      userMapper: sl<GithubUserMapper>(),
-      assetMapper: sl<GithubAssetMapper>(),
-    ),
-  );
-  sl.registerLazySingleton<AppUserMapper>(
-    () => const AppUserMapper(),
-  );
-}
-
-Future<void> initDatasources() async {
-  sl.registerLazySingleton<GithubRemoteDataSource>(
-    () => GithubRemoteDataSourceImpl(client: sl<http.Client>()),
-  );
-
-  sl.registerLazySingleton<GithubLocalDataSource>(
-    () => GithubLocalDataSourceImpl(box: sl.get<Box<dynamic>>()),
-  );
-
-  sl.registerLazySingleton<FirebaseAuthDataSource>(
-    () => FirebaseAuthDataSourceImpl(
-      auth: firebaseAuth,
-      db: firestore,
-    ),
-  );
+  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
+  Firestore get firestore => Firestore.instance;
 }

@@ -14,7 +14,11 @@ import 'package:flutter_architecture_template/data/datasources/github_remote_dat
 import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
 import 'package:flutter_architecture_template/domain/entities/github/release.dart';
 import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
+import 'package:injectable/injectable.dart';
 
+@RegisterAs(ReleasesRepository)
+@lazySingleton
+@injectable
 class ReleasesRepositoryImpl implements ReleasesRepository {
   final GithubLocalDataSource localDataSource;
   final GithubRemoteDataSource remoteDataSource;

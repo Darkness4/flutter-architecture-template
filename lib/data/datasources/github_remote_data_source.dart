@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/data/models/github/release_model.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class GithubRemoteDataSource {
   Future<List<GithubReleaseModel>> fetchReleases(String repo);
@@ -16,6 +17,9 @@ abstract class GithubRemoteDataSource {
   Future<GithubUserModel> fetchUser(String username);
 }
 
+@RegisterAs(GithubRemoteDataSource)
+@lazySingleton
+@injectable
 class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
   final http.Client client;
 

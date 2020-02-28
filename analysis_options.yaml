@@ -1,3 +1,6 @@
+# extra_pedantic doesn't allow implicit casts and implicit dynamic.
+# Why? because disabling those removes a whole bunch of issues and
+# leaves less place for accidental errors.
 analyzer:
   strong-mode:
     implicit-casts: false
@@ -5,6 +8,7 @@ analyzer:
   exclude:
     - *.g.dart
     - *generated_plugin_registrant.dart
+    - analysis_options.yaml
   enable-experiment:
     - extension-methods
 

@@ -8,6 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  await Hive.openBox<dynamic>('prefs');
   await di.init();
   runApp(MyApp());
 }

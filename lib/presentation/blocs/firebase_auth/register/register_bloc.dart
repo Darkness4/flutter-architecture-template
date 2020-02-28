@@ -4,11 +4,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/core/validators.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signup.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
 
 part 'register_event.dart';
 part 'register_state.dart';
 
+@injectable
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final FirebaseAuthSignUp firebaseAuthSignUp;
 

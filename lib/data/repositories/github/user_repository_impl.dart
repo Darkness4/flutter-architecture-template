@@ -14,7 +14,11 @@ import 'package:flutter_architecture_template/data/datasources/github_remote_dat
 import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
 import 'package:flutter_architecture_template/domain/entities/github/user.dart';
 import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
+import 'package:injectable/injectable.dart';
 
+@RegisterAs(UserRepository)
+@lazySingleton
+@injectable
 class UserRepositoryImpl implements UserRepository {
   final GithubLocalDataSource localDataSource;
   final GithubRemoteDataSource remoteDataSource;

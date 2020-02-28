@@ -5,11 +5,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/core/validators.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signin.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
 
 part 'login_event.dart';
 part 'login_state.dart';
 
+@injectable
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final FirebaseAuthSignIn firebaseAuthSignIn;
 

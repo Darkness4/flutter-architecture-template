@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/data/models/firebase_auth/app_user_model.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart' show SwitchMapExtension;
 
 abstract class FirebaseAuthDataSource {
@@ -18,6 +19,9 @@ abstract class FirebaseAuthDataSource {
   Future<void> signOut();
 }
 
+@RegisterAs(FirebaseAuthDataSource)
+@lazySingleton
+@injectable
 class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
   final FirebaseAuth auth;
   final Firestore db;

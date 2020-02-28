@@ -7,11 +7,13 @@ import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_auth_state.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_user.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart' show SwitchMapExtension;
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
+@injectable
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final GetAuthState getAuthState;
