@@ -173,7 +173,7 @@ void $initGetIt(GetIt g, {String environment}) {
 
   //Register test Dependencies --------
   if (environment == 'test') {
-    g.registerLazySingleton<BoxManager>(() => MockBoxManager());
+    g.registerFactory<BoxManager>(() => MockBoxManager());
     g.registerFactory<NetworkInfo>(() => MockNetworkInfo());
     g.registerFactory<GithubLocalDataSource>(() => MockGithubLocalDataSource());
     g.registerFactory<GithubRemoteDataSource>(

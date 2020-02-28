@@ -6,7 +6,6 @@ import 'box_manager.dart';
 
 @test
 @injectable
-@lazySingleton
 @RegisterAs(BoxManager)
 class MockBoxManager extends Mock implements BoxManager {
   @override
