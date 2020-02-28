@@ -1,6 +1,5 @@
 stages:
   - test
-  # - integration-tests
   - build
   - deploy
 
@@ -21,41 +20,13 @@ unit-tests:
     paths:
     - coverage/
 
-# navigation_test:
-#   stage: integration-tests
-#   image: darkness4/flutter-builder:28
-
-#   before_script:
-#     - /bin/sh ./.ci-scripts/before_script_get_deps_emulator.sh
-#     - /bin/sed -iEn "s/_webhook = \"ZXhlbXBsZQ==\"/_webhook = \"${CI_WEBHOOK_KEY}\"/g" ./lib/core/constants/api_constants.dart
-#     - /bin/sed -iEn "s/_facebookApi = \"ZXhlbXBsZQ==\"/_facebookApi = \"${CI_FACEBOOK_KEY}\"/g" ./lib/core/constants/api_constants.dart
-#     - /bin/bash ./.ci-scripts/before_script_integration_tests.sh
-
-#   script:
-#     - flutter drive --verbose --target=test_driver/app.dart --driver=test_driver/navigation_test.dart
-
-#   after_script:
-#     - /bin/bash ./.ci-scripts/stop-emulator
-
-#   tags:
-#     - android
-
-#   artifacts:
-#     paths:
-#     - test_driver/screenshots/
-
 pages:
   stage: deploy
   image: ruby:latest
   dependencies:
     - unit-tests
 
-  # before_script:
-  #   - gem install coveralls-lcov
-  #   - "echo \"repo_token: ${COVERALLS_TOKEN}\" > .coveralls.yml"
-
   script:
-    # - coveralls-lcov ./coverage/lcov.info
     - mv coverage/ public/
 
   artifacts:
@@ -99,16 +70,18 @@ build-apk:
     - echo "storeFile=keystore.jks" >> android/key.properties
 
   script:
-    - flutter build apk --verbose --target-platform android-arm,android-arm64 --split-per-abi
+    - flutter build apk --verbose --split-per-abi
 
   after_script:
     - mv build/app/outputs/apk/release/app-armeabi-v7a-release.apk .
     - mv build/app/outputs/apk/release/app-arm64-v8a-release.apk .
+    - mv build/app/outputs/apk/release/app-x86_64-release.apk .
 
   artifacts:
     paths:
       - app-armeabi-v7a-release.apk
       - app-arm64-v8a-release.apk
+      - app-x86_64-release.apk
     expire_in: 1 week
 
   only:
@@ -128,7 +101,7 @@ build-aab:
     - echo "storeFile=keystore.jks" >> android/key.properties
 
   script:
-    - flutter build appbundle --verbose --target-platform android-arm,android-arm64
+    - flutter build appbundle --verbose
 
   after_script:
     - mv build/app/outputs/bundle/release/app-release.aab .
