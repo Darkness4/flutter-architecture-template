@@ -97,6 +97,7 @@ jobs:
       with:
         channel: 'dev'
     - run: flutter pub get
+    - run: flutter config --enable-web
     - run: flutter build web --release
     - name: Deploy to Firebase
       uses: w9jds/firebase-action@master
