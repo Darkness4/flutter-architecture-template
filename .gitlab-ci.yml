@@ -114,3 +114,22 @@ build-aab:
   only:
     - master
     - develop
+
+build-web:
+  stage: build
+  image: darkness4/flutter-builder:29-dev
+  
+  before_script:
+    - /bin/sh ./.ci-scripts/before_script_get_deps_build.sh
+    - echo ${RELEASE_KEYSTORE_BASE64} | base64 -d > android/app/keystore.jks
+    - echo "storePassword=${KEYSTORE_PASSWORD}" > android/key.properties
+    - echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
+    - echo "keyAlias=${ALIAS}" >> android/key.properties
+    - echo "storeFile=keystore.jks" >> android/key.properties
+
+  script:
+    - flutter build web --verbose
+
+  only:
+    - master
+    - develop
