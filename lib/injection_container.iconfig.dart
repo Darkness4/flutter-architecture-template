@@ -44,8 +44,8 @@ import 'package:flutter_architecture_template/data/repositories/firebase_auth/ap
 import 'package:flutter_architecture_template/domain/repositories/firebase_auth/app_user_repository.dart';
 import 'package:flutter_architecture_template/data/repositories/gitlab_user_repository_impl.dart';
 import 'package:flutter_architecture_template/domain/repositories/gitlab_user_repository.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_auth_state.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_user.dart';
+import 'package:flutter_architecture_template/domain/usecases/firebase_auth/is_signed_in.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/set_user_data.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signin.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signout.dart';
@@ -56,6 +56,7 @@ import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/l
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/register/register_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/user_data_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/gitlab_user/gitlab_user_bloc.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/forgot/forgot_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 void $initGetIt(GetIt g, {String environment}) {
@@ -132,10 +133,10 @@ void $initGetIt(GetIt g, {String environment}) {
               g<GitlabRemoteDataSource>(),
               g<GitlabUserMapper>(),
             ));
-    g.registerLazySingleton<GetAuthState>(() => GetAuthState(
+    g.registerLazySingleton<GetAppUser>(() => GetAppUser(
           g<AppUserRepository>(),
         ));
-    g.registerLazySingleton<GetAppUser>(() => GetAppUser(
+    g.registerLazySingleton<IsSignedIn>(() => IsSignedIn(
           g<AppUserRepository>(),
         ));
     g.registerLazySingleton<SetUserData>(() => SetUserData(
@@ -154,8 +155,9 @@ void $initGetIt(GetIt g, {String environment}) {
           g<GitlabUserRepository>(),
         ));
     g.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
-          getAuthState: g<GetAuthState>(),
           getAppUser: g<GetAppUser>(),
+          isSignedIn: g<IsSignedIn>(),
+          signOut: g<FirebaseAuthSignOut>(),
         ));
     g.registerFactory<LoginBloc>(() => LoginBloc(
           firebaseAuthSignIn: g<FirebaseAuthSignIn>(),
@@ -168,6 +170,9 @@ void $initGetIt(GetIt g, {String environment}) {
         ));
     g.registerFactory<GitlabUserBloc>(() => GitlabUserBloc(
           getGitlabUser: g<GetGitlabUser>(),
+        ));
+    g.registerFactory<ForgotBloc>(() => ForgotBloc(
+          firebaseAuthDataSource: g<FirebaseAuthDataSource>(),
         ));
   }
 

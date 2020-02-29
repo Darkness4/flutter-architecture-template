@@ -6,13 +6,13 @@ import 'package:injectable/injectable.dart';
 @prod
 @lazySingleton
 @injectable
-class GetAppUser extends Usecase<Stream<AppUser>, NoParams> {
+class GetAppUser extends Usecase<AppUser, NoParams> {
   final AppUserRepository repository;
 
   const GetAppUser(this.repository);
 
   @override
-  Stream<AppUser> call(NoParams) {
-    return repository.profile.asBroadcastStream();
+  AppUser call(NoParams) {
+    return repository.profile;
   }
 }

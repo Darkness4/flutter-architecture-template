@@ -5,16 +5,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/data/models/firebase_auth/app_user_model.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart' show SwitchMapExtension;
+import 'package:rxdart/rxdart.dart' show BehaviorSubject, SwitchMapExtension;
 
 abstract class FirebaseAuthDataSource {
-  Stream<FirebaseUser> get user;
-  Stream<AppUserModel> get profile;
+  AppUserModel get profile;
 
   Future<AuthResult> signIn(String email, String password);
   Future<AuthResult> signUp(String email, String password);
 
   Future<void> setUserData(AppUserModel map);
+  Future<bool> isSignedIn();
+
+  Future<void> forgotPassword(String email);
 
   Future<void> signOut();
 }
@@ -26,27 +28,35 @@ abstract class FirebaseAuthDataSource {
 class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
   final FirebaseAuth auth;
   final Firestore db;
+  final BehaviorSubject<AppUserModel> profileController =
+      BehaviorSubject<AppUserModel>();
 
-  const FirebaseAuthDataSourceImpl({
+  FirebaseAuthDataSourceImpl({
     @required this.auth,
     @required this.db,
-  });
+  }) {
+    Stream<AppUserModel> stream =
+        auth.onAuthStateChanged.switchMap((FirebaseUser user) {
+      if (user != null) {
+        return db
+            .collection('users')
+            .document(user.uid)
+            .snapshots()
+            .map((snap) => AppUserModel.fromMap(snap.data));
+      } else {
+        return Stream<AppUserModel>.value(AppUserModel());
+      }
+    });
+    stream.listen(profileController.add);
+  }
 
   @override
-  Stream<FirebaseUser> get user => auth.onAuthStateChanged;
+  AppUserModel get profile => profileController.value;
 
-  @override
-  Stream<AppUserModel> get profile => user.switchMap((FirebaseUser user) {
-        if (user != null) {
-          return db
-              .collection('users')
-              .document(user.uid)
-              .snapshots()
-              .map((snap) => AppUserModel.fromMap(snap.data));
-        } else {
-          return Stream<AppUserModel>.value(AppUserModel());
-        }
-      });
+  Future<bool> isSignedIn() async {
+    final currentUser = await auth.currentUser();
+    return currentUser != null;
+  }
 
   @override
   Future<AuthResult> signIn(String email, String password) async {
@@ -79,6 +89,10 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
 
   @override
   Future<void> signOut() => auth.signOut();
+
+  @override
+  Future<void> forgotPassword(String email) =>
+      auth.sendPasswordResetEmail(email: email);
 
   @override
   Future<AuthResult> signUp(String email, String password) =>

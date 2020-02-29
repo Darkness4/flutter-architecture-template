@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/login/login_bloc.dart';
 import 'package:flutter_architecture_template/presentation/widgets/firebase_auth/create_account_button.dart';
+import 'package:flutter_architecture_template/presentation/widgets/firebase_auth/forgot_password_button.dart';
 import 'package:flutter_architecture_template/presentation/widgets/firebase_auth/login_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -76,7 +77,7 @@ class _LoginFormState extends State<LoginForm> {
               child: ListView(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: 30),
                     child: Icon(Icons.android),
                   ),
                   TextFormField(
@@ -105,7 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -115,6 +116,7 @@ class _LoginFormState extends State<LoginForm> {
                               : null,
                         ),
                         CreateAccountButton(),
+                        ForgotPasswordButton(),
                       ],
                     ),
                   ),

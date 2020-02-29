@@ -29,7 +29,7 @@ dependencies:
   json_serializable: ^3.2.5 # dart.dev
   json_annotation: any # dart.dev
   firebase_core: ^0.4.4+2
-  firebase_auth: ^0.15.4
+  firebase_auth: ^0.15.5+2
   cloud_firestore: ^0.13.4
   rxdart: ^0.23.1
   injectable: ^0.2.3

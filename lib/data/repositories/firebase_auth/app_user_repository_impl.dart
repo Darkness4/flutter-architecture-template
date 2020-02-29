@@ -19,7 +19,7 @@ class AppUserRepositoryImpl implements AppUserRepository {
     @required this.userMapper,
   });
   @override
-  Stream<AppUser> get profile => dataSource.profile.map(userMapper.mapTo);
+  AppUser get profile => userMapper.mapTo(dataSource.profile);
 
   @override
   Future<void> setUserData(AppUser map) {
@@ -37,10 +37,12 @@ class AppUserRepositoryImpl implements AppUserRepository {
   }
 
   @override
-  Future<AuthResult> signUp(String email, String password) {
-    return dataSource.signUp(email, password);
+  Future<bool> isSignedIn() {
+    return dataSource.isSignedIn();
   }
 
   @override
-  Stream<FirebaseUser> get user => dataSource.user;
+  Future<AuthResult> signUp(String email, String password) {
+    return dataSource.signUp(email, password);
+  }
 }

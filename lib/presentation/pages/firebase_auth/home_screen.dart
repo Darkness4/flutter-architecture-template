@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signout.dart';
 import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
 import 'package:flutter_architecture_template/presentation/blocs/firebase_auth/user_data/user_data_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,7 +36,7 @@ class HomeScreen extends StatelessWidget {
         RaisedButton(
           child: Text("SignOut"),
           onPressed: () {
-            sl<FirebaseAuthSignOut>()(NoParams());
+            context.bloc<AuthenticationBloc>().add(LoggedOut());
           },
         ),
       ],

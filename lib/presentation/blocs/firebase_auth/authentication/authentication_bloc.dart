@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_template/core/usecases/usecase.dart';
 import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_auth_state.dart';
 import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_user.dart';
+import 'package:flutter_architecture_template/domain/usecases/firebase_auth/is_signed_in.dart';
+import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signout.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart' show SwitchMapExtension;
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -17,12 +16,14 @@ part 'authentication_state.dart';
 @injectable
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final GetAuthState getAuthState;
   final GetAppUser getAppUser;
+  final IsSignedIn isSignedIn;
+  final FirebaseAuthSignOut signOut;
 
   AuthenticationBloc({
-    @required this.getAuthState,
     @required this.getAppUser,
+    @required this.isSignedIn,
+    @required this.signOut,
   });
 
   @override
@@ -34,17 +35,32 @@ class AuthenticationBloc
   ) async* {
     if (event is AppStarted) {
       yield* _mapAppStartedToState();
+    } else if (event is LoggedIn) {
+      yield* _mapLoggedInToState();
+    } else if (event is LoggedOut) {
+      yield* _mapLoggedOutToState();
     }
   }
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
-    yield* getAuthState(NoParams()).switchMap((FirebaseUser user) {
-      if (user == null) {
-        return Stream.value(Unauthenticated());
+    try {
+      final status = await isSignedIn(NoParams());
+      if (status) {
+        add(LoggedIn());
       } else {
-        return getAppUser(NoParams())
-            .map((AppUser user) => Authenticated(user));
+        yield Unauthenticated();
       }
-    });
+    } catch (_) {
+      yield Unauthenticated();
+    }
+  }
+
+  Stream<AuthenticationState> _mapLoggedInToState() async* {
+    yield Authenticated(getAppUser(NoParams()));
+  }
+
+  Stream<AuthenticationState> _mapLoggedOutToState() async* {
+    yield Unauthenticated();
+    signOut(NoParams());
   }
 }
