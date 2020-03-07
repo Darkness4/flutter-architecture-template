@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter_architecture_template/core/box_manager/box_manager.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
 import 'package:flutter_architecture_template/data/models/github/release_model.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
 import 'package:flutter_architecture_template/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
@@ -15,14 +15,14 @@ import '../../fixtures/fixture_reader.dart';
 
 void main() {
   GithubLocalDataSourceImpl dataSource;
-  BoxManager mockManagerBox;
+  Box<String> mockBox;
   const String tRepo = 'Darkness4/minitel-app';
   const String tUsername = 'Darkness4';
   init(env: Environment.test);
 
   setUp(() {
-    mockManagerBox = sl<BoxManager>();
-    dataSource = GithubLocalDataSourceImpl(boxManager: mockManagerBox);
+    mockBox = sl<Box<String>>();
+    dataSource = GithubLocalDataSourceImpl(box: mockBox);
   });
 
   group('fetchLastReleases', () {
@@ -34,12 +34,11 @@ void main() {
       'should return ListGithubRelease from Github when there is one in the cache',
       () async {
         // arrange
-        when<String>(mockManagerBox.githubBox.get(any))
-            .thenReturn(fixture('releases.json'));
+        when<String>(mockBox.get(any)).thenReturn(fixture('releases.json'));
         // act
         final result = await dataSource.fetchLastReleases(tRepo);
         // assert
-        verify<String>(mockManagerBox.githubBox.get(tRepo));
+        verify<String>(mockBox.get(tRepo));
         expect(result, equals(tListGithubReleaseModel));
       },
     );
@@ -48,7 +47,7 @@ void main() {
       'should throw a CacheExeption when there is not a cached value',
       () async {
         // arrange
-        when<String>(mockManagerBox.githubBox.get(any)).thenReturn(null);
+        when<String>(mockBox.get(any)).thenReturn(null);
         // act
         final call = dataSource.fetchLastReleases;
         // assert
@@ -72,7 +71,7 @@ void main() {
         final expectedJsonString = json.encode(tListGithubReleaseModel
             .map((GithubReleaseModel release) => release.toJson())
             .toList());
-        verify(mockManagerBox.githubBox.put(
+        verify(mockBox.put(
           tRepo,
           expectedJsonString,
         ));
@@ -87,12 +86,11 @@ void main() {
       'should return GithubUserModel from Github when there is one in the cache',
       () async {
         // arrange
-        when<String>(mockManagerBox.githubBox.get(any))
-            .thenReturn(fixture('user.json'));
+        when<String>(mockBox.get(any)).thenReturn(fixture('user.json'));
         // act
         final result = await dataSource.fetchCachedUser(tUsername);
         // assert
-        verify<String>(mockManagerBox.githubBox.get(tUsername));
+        verify<String>(mockBox.get(tUsername));
         expect(result, equals(tGithubUserModel));
       },
     );
@@ -101,7 +99,7 @@ void main() {
       'should throw a CacheExeption when there is not a cached value',
       () async {
         // arrange
-        when<String>(mockManagerBox.githubBox.get(any)).thenReturn(null);
+        when<String>(mockBox.get(any)).thenReturn(null);
         // act
         final call = dataSource.fetchCachedUser;
         // assert
@@ -121,7 +119,7 @@ void main() {
         await dataSource.cacheUser(tGithubUserModel, tUsername);
         // assert
         final expectedJsonString = json.encode(tGithubUserModel.toJson());
-        verify(mockManagerBox.githubBox.put(
+        verify(mockBox.put(
           tUsername,
           expectedJsonString,
         ));

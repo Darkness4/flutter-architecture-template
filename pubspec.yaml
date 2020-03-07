@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^3.2.0 # bloclibrary.dev
-  equatable: ^1.1.0 # felangelov@gmail.com
+  equatable: ^1.1.1 # felangelov@gmail.com
   http: ^0.12.0+4 # dart.dev
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
@@ -30,9 +30,9 @@ dependencies:
   json_annotation: any # dart.dev
   firebase_core: ^0.4.4+2
   firebase_auth: ^0.15.5+2
-  cloud_firestore: ^0.13.4
+  cloud_firestore: ^0.13.4+1
   rxdart: ^0.23.1
-  injectable: ^0.2.3
+  injectable: ^0.3.0
   mockito: ^4.1.1 # dart.dev
 
 dev_dependencies:
@@ -43,7 +43,7 @@ dev_dependencies:
   test: any
   hive_generator: ^0.7.0+2
   build_runner: any
-  injectable_generator: ^0.2.3
+  injectable_generator: ^0.3.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -8,8 +8,8 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/core/box_manager/box_manager.dart';
 import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flutter_architecture_template/core/error/exceptions.dart';
 import 'package:flutter_architecture_template/data/models/github/release_model.dart';
@@ -30,14 +30,14 @@ abstract class GithubLocalDataSource {
 @lazySingleton
 @injectable
 class GithubLocalDataSourceImpl implements GithubLocalDataSource {
-  final BoxManager boxManager;
+  final Box<String> box;
 
-  GithubLocalDataSourceImpl({@required this.boxManager});
+  GithubLocalDataSourceImpl({@required this.box});
 
   @override
   Future<void> cacheReleases(
       List<GithubReleaseModel> releasesToCache, String repo) {
-    return boxManager.githubBox.put(
+    return box.put(
       repo,
       json.encode(releasesToCache
           .map((GithubReleaseModel release) => release.toJson())
@@ -47,7 +47,7 @@ class GithubLocalDataSourceImpl implements GithubLocalDataSource {
 
   @override
   Future<List<GithubReleaseModel>> fetchLastReleases(String repo) async {
-    final jsonString = boxManager.githubBox.get(repo);
+    final jsonString = box.get(repo);
     if (jsonString != null) {
       return List<Map<String, dynamic>>.from(
               json.decode(jsonString) as List<dynamic>)
@@ -60,7 +60,7 @@ class GithubLocalDataSourceImpl implements GithubLocalDataSource {
 
   @override
   Future<void> cacheUser(GithubUserModel userToCache, String username) {
-    return boxManager.githubBox.put(
+    return box.put(
       username,
       json.encode(userToCache.toJson()),
     );
@@ -68,7 +68,7 @@ class GithubLocalDataSourceImpl implements GithubLocalDataSource {
 
   @override
   Future<GithubUserModel> fetchCachedUser(String username) async {
-    final jsonString = boxManager.githubBox.get(username);
+    final jsonString = box.get(username);
     if (jsonString != null) {
       return GithubUserModel.fromJson(
           json.decode(jsonString) as Map<String, dynamic>);
