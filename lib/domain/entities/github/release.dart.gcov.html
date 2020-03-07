@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/domain/entities/github/release.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/domain/entities/github</a> - release.dart<span style="font-size: 80%;"> (source / <a href="release.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-03-07 19:02:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /// Github Release</a>
+<span class="lineNum">       2 </span>            : ///
+<span class="lineNum">       3 </span>            : /// C'est ici qu'on stocke les données uniquement nécéssaire à la logique du
+<span class="lineNum">       4 </span>            : /// logiciel.
+<span class="lineNum">       5 </span>            : ///
+<span class="lineNum">       6 </span>            : /// Il est possible qu'un entity existe mais n'a pas de data source.
+<span class="lineNum">       7 </span>            : /// Par exemple, une classe Monstre n'a pas besoin de source mais doit
+<span class="lineNum">       8 </span>            : /// être présent dans le dossier entities.
+<span class="lineNum">       9 </span>            : ///
+<span class="lineNum">      10 </span>            : /// [GithubRelease] représente une release d'après la documentation de
+<span class="lineNum">      11 </span>            : /// Github API.
+<span class="lineNum">      12 </span>            : import 'package:equatable/equatable.dart';
+<span class="lineNum">      13 </span>            : import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
+<span class="lineNum">      14 </span>            : import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : class GithubRelease extends Equatable {
+<span class="lineNum">      17 </span>            :   final String url;
+<span class="lineNum">      18 </span>            :   final String html_url;
+<span class="lineNum">      19 </span>            :   final String assets_url;
+<span class="lineNum">      20 </span>            :   final String upload_url;
+<span class="lineNum">      21 </span>            :   final String tarball_url;
+<span class="lineNum">      22 </span>            :   final String zipball_url;
+<span class="lineNum">      23 </span>            :   final int id;
+<span class="lineNum">      24 </span>            :   final String node_id;
+<span class="lineNum">      25 </span>            :   final String tag_name;
+<span class="lineNum">      26 </span>            :   final String target_commitish;
+<span class="lineNum">      27 </span>            :   final String name;
+<span class="lineNum">      28 </span>            :   final String body;
+<span class="lineNum">      29 </span>            :   final bool draft;
+<span class="lineNum">      30 </span>            :   final bool prerelease;
+<span class="lineNum">      31 </span>            :   final DateTime created_at;
+<span class="lineNum">      32 </span>            :   final DateTime published_at;
+<span class="lineNum">      33 </span>            :   final GithubUser author;
+<span class="lineNum">      34 </span>            :   final List&lt;GithubAsset&gt; assets;
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span><span class="lineCov">          4 :   const GithubRelease({</span>
+<span class="lineNum">      37 </span>            :     this.url,
+<span class="lineNum">      38 </span>            :     this.html_url,
+<span class="lineNum">      39 </span>            :     this.assets_url,
+<span class="lineNum">      40 </span>            :     this.upload_url,
+<span class="lineNum">      41 </span>            :     this.tarball_url,
+<span class="lineNum">      42 </span>            :     this.zipball_url,
+<span class="lineNum">      43 </span>            :     this.id,
+<span class="lineNum">      44 </span>            :     this.node_id,
+<span class="lineNum">      45 </span>            :     this.tag_name,
+<span class="lineNum">      46 </span>            :     this.target_commitish,
+<span class="lineNum">      47 </span>            :     this.name,
+<span class="lineNum">      48 </span>            :     this.body,
+<span class="lineNum">      49 </span>            :     this.draft,
+<span class="lineNum">      50 </span>            :     this.prerelease,
+<span class="lineNum">      51 </span>            :     this.created_at,
+<span class="lineNum">      52 </span>            :     this.published_at,
+<span class="lineNum">      53 </span>            :     this.author,
+<span class="lineNum">      54 </span>            :     this.assets,
+<span class="lineNum">      55 </span>            :   });
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span><span class="lineCov">          2 :   @override</span>
+<span class="lineNum">      58 </span><span class="lineCov">          2 :   List&lt;Object&gt; get props =&gt; &lt;Object&gt;[</span>
+<span class="lineNum">      59 </span><span class="lineCov">          2 :         url,</span>
+<span class="lineNum">      60 </span><span class="lineCov">          2 :         html_url,</span>
+<span class="lineNum">      61 </span><span class="lineCov">          2 :         assets_url,</span>
+<span class="lineNum">      62 </span><span class="lineCov">          2 :         upload_url,</span>
+<span class="lineNum">      63 </span><span class="lineCov">          2 :         tarball_url,</span>
+<span class="lineNum">      64 </span><span class="lineCov">          2 :         zipball_url,</span>
+<span class="lineNum">      65 </span><span class="lineCov">          2 :         id,</span>
+<span class="lineNum">      66 </span><span class="lineCov">          2 :         node_id,</span>
+<span class="lineNum">      67 </span><span class="lineCov">          2 :         tag_name,</span>
+<span class="lineNum">      68 </span><span class="lineCov">          2 :         target_commitish,</span>
+<span class="lineNum">      69 </span><span class="lineCov">          2 :         name,</span>
+<span class="lineNum">      70 </span><span class="lineCov">          2 :         body,</span>
+<span class="lineNum">      71 </span><span class="lineCov">          2 :         draft,</span>
+<span class="lineNum">      72 </span><span class="lineCov">          2 :         prerelease,</span>
+<span class="lineNum">      73 </span><span class="lineCov">          2 :         created_at,</span>
+<span class="lineNum">      74 </span><span class="lineCov">          2 :         published_at,</span>
+<span class="lineNum">      75 </span><span class="lineCov">          2 :         author,</span>
+<span class="lineNum">      76 </span><span class="lineCov">          2 :         assets,</span>
+<span class="lineNum">      77 </span>            :       ];
+<span class="lineNum">      78 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

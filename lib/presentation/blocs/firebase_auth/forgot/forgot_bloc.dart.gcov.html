@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/presentation/blocs/firebase_auth/forgot/forgot_bloc.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">lib/presentation/blocs/firebase_auth/forgot</a> - forgot_bloc.dart<span style="font-size: 80%;"> (source / <a href="forgot_bloc.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-03-07 19:02:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'dart:async';</a>
+<span class="lineNum">       2 </span>            : import 'package:bloc/bloc.dart';
+<span class="lineNum">       3 </span>            : import 'package:equatable/equatable.dart';
+<span class="lineNum">       4 </span>            : import 'package:flutter/foundation.dart';
+<span class="lineNum">       5 </span>            : import 'package:flutter_architecture_template/core/validators.dart';
+<span class="lineNum">       6 </span>            : import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
+<span class="lineNum">       7 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">       8 </span>            : import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : part 'forgot_event.dart';
+<span class="lineNum">      11 </span>            : part 'forgot_state.dart';
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : @prod
+<span class="lineNum">      14 </span>            : @injectable
+<span class="lineNum">      15 </span>            : class ForgotBloc extends Bloc&lt;ForgotEvent, ForgotState&gt; {
+<span class="lineNum">      16 </span>            :   final FirebaseAuthDataSource firebaseAuthDataSource;
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span><span class="lineNoCov">          0 :   ForgotBloc({@required this.firebaseAuthDataSource});</span>
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      21 </span><span class="lineNoCov">          0 :   ForgotState get initialState =&gt; ForgotState.empty();</span>
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      24 </span>            :   Stream&lt;ForgotState&gt; transformEvents(
+<span class="lineNum">      25 </span>            :     Stream&lt;ForgotEvent&gt; events,
+<span class="lineNum">      26 </span>            :     Stream&lt;ForgotState&gt; Function(ForgotEvent event) next,
+<span class="lineNum">      27 </span>            :   ) {
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :     final nonDebounceStream = events.where((event) {</span>
+<span class="lineNum">      29 </span><span class="lineNoCov">          0 :       return (event is! EmailChanged);</span>
+<span class="lineNum">      30 </span>            :     });
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     final debounceStream = events.where((event) {</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :       return (event is EmailChanged);</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :     }).debounceTime(Duration(milliseconds: 300));</span>
+<span class="lineNum">      34 </span>            :     return super
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :         .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);</span>
+<span class="lineNum">      36 </span>            :   }
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            :   @override
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :   Stream&lt;ForgotState&gt; mapEventToState(</span>
+<span class="lineNum">      40 </span>            :     ForgotEvent event,
+<span class="lineNum">      41 </span>            :   ) async* {
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :     if (event is EmailChanged) {</span>
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :       yield* _mapEmailChangedToState(event.email);</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     } else if (event is Submitted) {</span>
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :       yield* _mapFormSubmittedToState(event.email);</span>
+<span class="lineNum">      46 </span>            :     }
+<span class="lineNum">      47 </span>            :   }
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :   Stream&lt;ForgotState&gt; _mapEmailChangedToState(String email) async* {</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     yield state.update(</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :       isEmailValid: Validators.isValidEmail(email),</span>
+<span class="lineNum">      52 </span>            :     );
+<span class="lineNum">      53 </span>            :   }
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :   Stream&lt;ForgotState&gt; _mapFormSubmittedToState(</span>
+<span class="lineNum">      56 </span>            :     String email,
+<span class="lineNum">      57 </span>            :   ) async* {
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     yield ForgotState.loading();</span>
+<span class="lineNum">      59 </span>            :     try {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :       await firebaseAuthDataSource.forgotPassword(email);</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :       yield ForgotState.success();</span>
+<span class="lineNum">      62 </span>            :     } catch (_) {
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :       yield ForgotState.failure();</span>
+<span class="lineNum">      64 </span>            :     }
+<span class="lineNum">      65 </span>            :   }
+<span class="lineNum">      66 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/data/models/github/user_model.g.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/data/models/github</a> - user_model.g.dart<span style="font-size: 80%;"> (source / <a href="user_model.g.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">68</td>
+            <td class="headerCovTableEntry">68</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-03-07 19:02:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // GENERATED CODE - DO NOT MODIFY BY HAND</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : part of 'user_model.dart';
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : // **************************************************************************
+<span class="lineNum">       6 </span>            : // JsonSerializableGenerator
+<span class="lineNum">       7 </span>            : // **************************************************************************
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span><span class="lineCov">          7 : GithubUserModel _$GithubUserModelFromJson(Map&lt;String, dynamic&gt; json) {</span>
+<span class="lineNum">      10 </span><span class="lineCov">          7 :   return GithubUserModel(</span>
+<span class="lineNum">      11 </span><span class="lineCov">          7 :     login: json['login'] as String,</span>
+<span class="lineNum">      12 </span><span class="lineCov">          7 :     id: json['id'] as int,</span>
+<span class="lineNum">      13 </span><span class="lineCov">          7 :     node_id: json['node_id'] as String,</span>
+<span class="lineNum">      14 </span><span class="lineCov">          7 :     avatar_url: json['avatar_url'] as String,</span>
+<span class="lineNum">      15 </span><span class="lineCov">          7 :     gravatar_id: json['gravatar_id'] as String,</span>
+<span class="lineNum">      16 </span><span class="lineCov">          7 :     url: json['url'] as String,</span>
+<span class="lineNum">      17 </span><span class="lineCov">          7 :     html_url: json['html_url'] as String,</span>
+<span class="lineNum">      18 </span><span class="lineCov">          7 :     followers_url: json['followers_url'] as String,</span>
+<span class="lineNum">      19 </span><span class="lineCov">          7 :     following_url: json['following_url'] as String,</span>
+<span class="lineNum">      20 </span><span class="lineCov">          7 :     gists_url: json['gists_url'] as String,</span>
+<span class="lineNum">      21 </span><span class="lineCov">          7 :     starred_url: json['starred_url'] as String,</span>
+<span class="lineNum">      22 </span><span class="lineCov">          7 :     subscriptions_url: json['subscriptions_url'] as String,</span>
+<span class="lineNum">      23 </span><span class="lineCov">          7 :     organizations_url: json['organizations_url'] as String,</span>
+<span class="lineNum">      24 </span><span class="lineCov">          7 :     repos_url: json['repos_url'] as String,</span>
+<span class="lineNum">      25 </span><span class="lineCov">          7 :     events_url: json['events_url'] as String,</span>
+<span class="lineNum">      26 </span><span class="lineCov">          7 :     received_events_url: json['received_events_url'] as String,</span>
+<span class="lineNum">      27 </span><span class="lineCov">          7 :     type: json['type'] as String,</span>
+<span class="lineNum">      28 </span><span class="lineCov">          7 :     site_admin: json['site_admin'] as bool,</span>
+<span class="lineNum">      29 </span><span class="lineCov">          7 :     name: json['name'] as String,</span>
+<span class="lineNum">      30 </span><span class="lineCov">          7 :     company: json['company'] as String,</span>
+<span class="lineNum">      31 </span><span class="lineCov">          7 :     blog: json['blog'] as String,</span>
+<span class="lineNum">      32 </span><span class="lineCov">          7 :     location: json['location'] as String,</span>
+<span class="lineNum">      33 </span><span class="lineCov">          7 :     email: json['email'] as String,</span>
+<span class="lineNum">      34 </span><span class="lineCov">          7 :     hireable: json['hireable'] as bool,</span>
+<span class="lineNum">      35 </span><span class="lineCov">          7 :     bio: json['bio'] as String,</span>
+<span class="lineNum">      36 </span><span class="lineCov">          7 :     public_repos: json['public_repos'] as int,</span>
+<span class="lineNum">      37 </span><span class="lineCov">          7 :     public_gists: json['public_gists'] as int,</span>
+<span class="lineNum">      38 </span><span class="lineCov">          7 :     followers: json['followers'] as int,</span>
+<span class="lineNum">      39 </span><span class="lineCov">          7 :     following: json['following'] as int,</span>
+<span class="lineNum">      40 </span><span class="lineCov">          7 :     created_at: json['created_at'] == null</span>
+<span class="lineNum">      41 </span>            :         ? null
+<span class="lineNum">      42 </span><span class="lineCov">          8 :         : DateTime.parse(json['created_at'] as String),</span>
+<span class="lineNum">      43 </span><span class="lineCov">          7 :     updated_at: json['updated_at'] == null</span>
+<span class="lineNum">      44 </span>            :         ? null
+<span class="lineNum">      45 </span><span class="lineCov">          8 :         : DateTime.parse(json['updated_at'] as String),</span>
+<span class="lineNum">      46 </span>            :   );
+<span class="lineNum">      47 </span>            : }
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span><span class="lineCov">          4 : Map&lt;String, dynamic&gt; _$GithubUserModelToJson(GithubUserModel instance) =&gt;</span>
+<span class="lineNum">      50 </span><span class="lineCov">          4 :     &lt;String, dynamic&gt;{</span>
+<span class="lineNum">      51 </span><span class="lineCov">          4 :       'login': instance.login,</span>
+<span class="lineNum">      52 </span><span class="lineCov">          4 :       'id': instance.id,</span>
+<span class="lineNum">      53 </span><span class="lineCov">          4 :       'node_id': instance.node_id,</span>
+<span class="lineNum">      54 </span><span class="lineCov">          4 :       'avatar_url': instance.avatar_url,</span>
+<span class="lineNum">      55 </span><span class="lineCov">          4 :       'gravatar_id': instance.gravatar_id,</span>
+<span class="lineNum">      56 </span><span class="lineCov">          4 :       'url': instance.url,</span>
+<span class="lineNum">      57 </span><span class="lineCov">          4 :       'html_url': instance.html_url,</span>
+<span class="lineNum">      58 </span><span class="lineCov">          4 :       'followers_url': instance.followers_url,</span>
+<span class="lineNum">      59 </span><span class="lineCov">          4 :       'following_url': instance.following_url,</span>
+<span class="lineNum">      60 </span><span class="lineCov">          4 :       'gists_url': instance.gists_url,</span>
+<span class="lineNum">      61 </span><span class="lineCov">          4 :       'starred_url': instance.starred_url,</span>
+<span class="lineNum">      62 </span><span class="lineCov">          4 :       'subscriptions_url': instance.subscriptions_url,</span>
+<span class="lineNum">      63 </span><span class="lineCov">          4 :       'organizations_url': instance.organizations_url,</span>
+<span class="lineNum">      64 </span><span class="lineCov">          4 :       'repos_url': instance.repos_url,</span>
+<span class="lineNum">      65 </span><span class="lineCov">          4 :       'events_url': instance.events_url,</span>
+<span class="lineNum">      66 </span><span class="lineCov">          4 :       'received_events_url': instance.received_events_url,</span>
+<span class="lineNum">      67 </span><span class="lineCov">          4 :       'type': instance.type,</span>
+<span class="lineNum">      68 </span><span class="lineCov">          4 :       'site_admin': instance.site_admin,</span>
+<span class="lineNum">      69 </span><span class="lineCov">          4 :       'name': instance.name,</span>
+<span class="lineNum">      70 </span><span class="lineCov">          4 :       'company': instance.company,</span>
+<span class="lineNum">      71 </span><span class="lineCov">          4 :       'blog': instance.blog,</span>
+<span class="lineNum">      72 </span><span class="lineCov">          4 :       'location': instance.location,</span>
+<span class="lineNum">      73 </span><span class="lineCov">          4 :       'email': instance.email,</span>
+<span class="lineNum">      74 </span><span class="lineCov">          4 :       'hireable': instance.hireable,</span>
+<span class="lineNum">      75 </span><span class="lineCov">          4 :       'bio': instance.bio,</span>
+<span class="lineNum">      76 </span><span class="lineCov">          4 :       'public_repos': instance.public_repos,</span>
+<span class="lineNum">      77 </span><span class="lineCov">          4 :       'public_gists': instance.public_gists,</span>
+<span class="lineNum">      78 </span><span class="lineCov">          4 :       'followers': instance.followers,</span>
+<span class="lineNum">      79 </span><span class="lineCov">          4 :       'following': instance.following,</span>
+<span class="lineNum">      80 </span><span class="lineCov">          6 :       'created_at': instance.created_at?.toIso8601String(),</span>
+<span class="lineNum">      81 </span><span class="lineCov">          6 :       'updated_at': instance.updated_at?.toIso8601String(),</span>
+<span class="lineNum">      82 </span>            :     };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

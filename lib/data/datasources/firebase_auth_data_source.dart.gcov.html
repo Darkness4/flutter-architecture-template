@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/data/datasources/firebase_auth_data_source.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">lib/data/datasources</a> - firebase_auth_data_source.dart<span style="font-size: 80%;"> (source / <a href="firebase_auth_data_source.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">33</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-03-07 19:02:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'dart:async';</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : import 'package:cloud_firestore/cloud_firestore.dart';
+<span class="lineNum">       4 </span>            : import 'package:firebase_auth/firebase_auth.dart';
+<span class="lineNum">       5 </span>            : import 'package:flutter/foundation.dart';
+<span class="lineNum">       6 </span>            : import 'package:flutter_architecture_template/data/models/firebase_auth/app_user_model.dart';
+<span class="lineNum">       7 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">       8 </span>            : import 'package:rxdart/rxdart.dart' show BehaviorSubject, SwitchMapExtension;
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : abstract class FirebaseAuthDataSource {
+<span class="lineNum">      11 </span>            :   AppUserModel get profile;
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            :   Future&lt;AuthResult&gt; signIn(String email, String password);
+<span class="lineNum">      14 </span>            :   Future&lt;AuthResult&gt; signUp(String email, String password);
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            :   Future&lt;void&gt; setUserData(AppUserModel map);
+<span class="lineNum">      17 </span>            :   Future&lt;bool&gt; isSignedIn();
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            :   Future&lt;void&gt; forgotPassword(String email);
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            :   Future&lt;void&gt; signOut();
+<span class="lineNum">      22 </span>            : }
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : @RegisterAs(FirebaseAuthDataSource)
+<span class="lineNum">      25 </span>            : @prod
+<span class="lineNum">      26 </span>            : @lazySingleton
+<span class="lineNum">      27 </span>            : @injectable
+<span class="lineNum">      28 </span>            : class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
+<span class="lineNum">      29 </span>            :   final FirebaseAuth auth;
+<span class="lineNum">      30 </span>            :   final Firestore db;
+<span class="lineNum">      31 </span>            :   final BehaviorSubject&lt;AppUserModel&gt; profileController =
+<span class="lineNum">      32 </span>            :       BehaviorSubject&lt;AppUserModel&gt;();
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :   FirebaseAuthDataSourceImpl({</span>
+<span class="lineNum">      35 </span>            :     @required this.auth,
+<span class="lineNum">      36 </span>            :     @required this.db,
+<span class="lineNum">      37 </span>            :   }) {
+<span class="lineNum">      38 </span>            :     Stream&lt;AppUserModel&gt; stream =
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :         auth.onAuthStateChanged.switchMap((FirebaseUser user) {</span>
+<span class="lineNum">      40 </span>            :       if (user != null) {
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         return db</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :             .collection('users')</span>
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :             .document(user.uid)</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :             .snapshots()</span>
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :             .map((snap) =&gt; AppUserModel.fromMap(snap.data));</span>
+<span class="lineNum">      46 </span>            :       } else {
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :         return Stream&lt;AppUserModel&gt;.value(AppUserModel());</span>
+<span class="lineNum">      48 </span>            :       }
+<span class="lineNum">      49 </span>            :     });
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     stream.listen(profileController.add);</span>
+<span class="lineNum">      51 </span>            :   }
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :   AppUserModel get profile =&gt; profileController.value;</span>
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :   Future&lt;bool&gt; isSignedIn() async {</span>
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     final currentUser = await auth.currentUser();</span>
+<span class="lineNum">      58 </span>            :     return currentUser != null;
+<span class="lineNum">      59 </span>            :   }
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            :   @override
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :   Future&lt;AuthResult&gt; signIn(String email, String password) async {</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :     final AuthResult result = await auth.signInWithEmailAndPassword(</span>
+<span class="lineNum">      64 </span>            :       email: email,
+<span class="lineNum">      65 </span>            :       password: password,
+<span class="lineNum">      66 </span>            :     );
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :     await _updateUserData(result.user);</span>
+<span class="lineNum">      68 </span>            :     return result;
+<span class="lineNum">      69 </span>            :   }
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :   Future&lt;void&gt; _updateUserData(FirebaseUser user) async {</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :     final DocumentReference ref = db.collection('users').document(user.uid);</span>
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :     return ref.setData({</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :       'uid': user.uid,</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :       'email': user.email,</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :       'photoUrl': user.photoUrl,</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :       'displayName': user.displayName,</span>
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :       'lastSeen': DateTime.now(),</span>
+<span class="lineNum">      80 </span>            :     }, merge: true);
+<span class="lineNum">      81 </span>            :   }
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      84 </span>            :   Future&lt;void&gt; setUserData(AppUserModel appUser) {
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :     final DocumentReference ref = db.collection('users').document(appUser.uid);</span>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :     return ref.setData(appUser.toMap(), merge: true);</span>
+<span class="lineNum">      88 </span>            :   }
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :   Future&lt;void&gt; signOut() =&gt; auth.signOut();</span>
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      94 </span>            :   Future&lt;void&gt; forgotPassword(String email) =&gt;
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :       auth.sendPasswordResetEmail(email: email);</span>
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      98 </span>            :   Future&lt;AuthResult&gt; signUp(String email, String password) =&gt;
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :       auth.createUserWithEmailAndPassword(</span>
+<span class="lineNum">     100 </span>            :         email: email,
+<span class="lineNum">     101 </span>            :         password: password,
+<span class="lineNum">     102 </span>            :       );
+<span class="lineNum">     103 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

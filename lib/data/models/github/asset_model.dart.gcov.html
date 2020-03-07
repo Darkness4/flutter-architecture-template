@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/data/models/github/asset_model.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/data/models/github</a> - asset_model.dart<span style="font-size: 80%;"> (source / <a href="asset_model.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-03-07 19:02:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /// Github Asset Model</a>
+<span class="lineNum">       2 </span>            : ///
+<span class="lineNum">       3 </span>            : /// Après avoir récupéré les données de Github API, les données doivent être
+<span class="lineNum">       4 </span>            : /// stocké dans des models.
+<span class="lineNum">       5 </span>            : ///
+<span class="lineNum">       6 </span>            : /// [GithubAssetModel] alimente [GithubAsset] qui représente un asset d'après
+<span class="lineNum">       7 </span>            : /// la documentation de Github API.
+<span class="lineNum">       8 </span>            : import 'package:equatable/equatable.dart';
+<span class="lineNum">       9 </span>            : import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+<span class="lineNum">      10 </span>            : import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
+<span class="lineNum">      11 </span>            : import 'package:json_annotation/json_annotation.dart';
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : part 'asset_model.g.dart';
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : @JsonSerializable(explicitToJson: true)
+<span class="lineNum">      16 </span>            : class GithubAssetModel extends Equatable {
+<span class="lineNum">      17 </span>            :   final String url;
+<span class="lineNum">      18 </span>            :   final String browser_download_url;
+<span class="lineNum">      19 </span>            :   final int id;
+<span class="lineNum">      20 </span>            :   final String node_id;
+<span class="lineNum">      21 </span>            :   final String name;
+<span class="lineNum">      22 </span>            :   final String label;
+<span class="lineNum">      23 </span>            :   final String state;
+<span class="lineNum">      24 </span>            :   final String content_type;
+<span class="lineNum">      25 </span>            :   final int size;
+<span class="lineNum">      26 </span>            :   final int download_count;
+<span class="lineNum">      27 </span>            :   final DateTime created_at;
+<span class="lineNum">      28 </span>            :   final DateTime updated_at;
+<span class="lineNum">      29 </span>            :   final GithubUserModel uploader;
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span><span class="lineCov">          7 :   const GithubAssetModel({</span>
+<span class="lineNum">      32 </span>            :     this.url,
+<span class="lineNum">      33 </span>            :     this.browser_download_url,
+<span class="lineNum">      34 </span>            :     this.id,
+<span class="lineNum">      35 </span>            :     this.node_id,
+<span class="lineNum">      36 </span>            :     this.name,
+<span class="lineNum">      37 </span>            :     this.label,
+<span class="lineNum">      38 </span>            :     this.state,
+<span class="lineNum">      39 </span>            :     this.content_type,
+<span class="lineNum">      40 </span>            :     this.size,
+<span class="lineNum">      41 </span>            :     this.download_count,
+<span class="lineNum">      42 </span>            :     this.created_at,
+<span class="lineNum">      43 </span>            :     this.updated_at,
+<span class="lineNum">      44 </span>            :     this.uploader,
+<span class="lineNum">      45 </span>            :   });
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineCov">          5 :   @override</span>
+<span class="lineNum">      48 </span><span class="lineCov">          5 :   List&lt;Object&gt; get props =&gt; &lt;Object&gt;[</span>
+<span class="lineNum">      49 </span><span class="lineCov">          5 :         url,</span>
+<span class="lineNum">      50 </span><span class="lineCov">          5 :         browser_download_url,</span>
+<span class="lineNum">      51 </span><span class="lineCov">          5 :         id,</span>
+<span class="lineNum">      52 </span><span class="lineCov">          5 :         node_id,</span>
+<span class="lineNum">      53 </span><span class="lineCov">          5 :         name,</span>
+<span class="lineNum">      54 </span><span class="lineCov">          5 :         label,</span>
+<span class="lineNum">      55 </span><span class="lineCov">          5 :         state,</span>
+<span class="lineNum">      56 </span><span class="lineCov">          5 :         content_type,</span>
+<span class="lineNum">      57 </span><span class="lineCov">          5 :         size,</span>
+<span class="lineNum">      58 </span><span class="lineCov">          5 :         download_count,</span>
+<span class="lineNum">      59 </span><span class="lineCov">          5 :         created_at,</span>
+<span class="lineNum">      60 </span><span class="lineCov">          5 :         updated_at,</span>
+<span class="lineNum">      61 </span><span class="lineCov">          5 :         uploader,</span>
+<span class="lineNum">      62 </span>            :       ];
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span><span class="lineCov">          5 :   factory GithubAssetModel.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span>
+<span class="lineNum">      65 </span><span class="lineCov">          5 :       _$GithubAssetModelFromJson(json);</span>
+<span class="lineNum">      66 </span><span class="lineCov">          6 :   Map&lt;String, dynamic&gt; toJson() =&gt; _$GithubAssetModelToJson(this);</span>
+<span class="lineNum">      67 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

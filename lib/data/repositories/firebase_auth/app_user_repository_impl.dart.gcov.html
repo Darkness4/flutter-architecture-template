@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/data/repositories/firebase_auth/app_user_repository_impl.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/data/repositories/firebase_auth</a> - app_user_repository_impl.dart<span style="font-size: 80%;"> (source / <a href="app_user_repository_impl.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-03-07 19:02:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'package:firebase_auth/firebase_auth.dart';</a>
+<span class="lineNum">       2 </span>            : import 'package:flutter/foundation.dart';
+<span class="lineNum">       3 </span>            : import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
+<span class="lineNum">       4 </span>            : import 'package:flutter_architecture_template/data/mappers/firebase_auth/app_user_mapper.dart';
+<span class="lineNum">       5 </span>            : import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
+<span class="lineNum">       6 </span>            : import 'package:flutter_architecture_template/domain/repositories/firebase_auth/app_user_repository.dart';
+<span class="lineNum">       7 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : @prod
+<span class="lineNum">      10 </span>            : @RegisterAs(AppUserRepository)
+<span class="lineNum">      11 </span>            : @lazySingleton
+<span class="lineNum">      12 </span>            : @injectable
+<span class="lineNum">      13 </span>            : class AppUserRepositoryImpl implements AppUserRepository {
+<span class="lineNum">      14 </span>            :   final FirebaseAuthDataSource dataSource;
+<span class="lineNum">      15 </span>            :   final AppUserMapper userMapper;
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span><span class="lineNoCov">          0 :   const AppUserRepositoryImpl({</span>
+<span class="lineNum">      18 </span>            :     @required this.dataSource,
+<span class="lineNum">      19 </span>            :     @required this.userMapper,
+<span class="lineNum">      20 </span>            :   });
+<span class="lineNum">      21 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      22 </span><span class="lineNoCov">          0 :   AppUser get profile =&gt; userMapper.mapTo(dataSource.profile);</span>
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      25 </span>            :   Future&lt;void&gt; setUserData(AppUser map) {
+<span class="lineNum">      26 </span><span class="lineNoCov">          0 :     return dataSource.setUserData(userMapper.mapFrom(map));</span>
+<span class="lineNum">      27 </span>            :   }
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      30 </span>            :   Future&lt;AuthResult&gt; signIn(String email, String password) {
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     return dataSource.signIn(email, password);</span>
+<span class="lineNum">      32 </span>            :   }
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      35 </span>            :   Future&lt;void&gt; signOut() {
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :     return dataSource.signOut();</span>
+<span class="lineNum">      37 </span>            :   }
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      40 </span>            :   Future&lt;bool&gt; isSignedIn() {
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     return dataSource.isSignedIn();</span>
+<span class="lineNum">      42 </span>            :   }
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      45 </span>            :   Future&lt;AuthResult&gt; signUp(String email, String password) {
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :     return dataSource.signUp(email, password);</span>
+<span class="lineNum">      47 </span>            :   }
+<span class="lineNum">      48 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

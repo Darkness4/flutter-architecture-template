@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/data/mappers/github/release_mapper.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/data/mappers/github</a> - release_mapper.dart<span style="font-size: 80%;"> (source / <a href="release_mapper.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-03-07 19:02:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'package:flutter/foundation.dart';</a>
+<span class="lineNum">       2 </span>            : import 'package:flutter_architecture_template/core/mappers/mapper.dart';
+<span class="lineNum">       3 </span>            : import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.dart';
+<span class="lineNum">       4 </span>            : import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
+<span class="lineNum">       5 </span>            : import 'package:flutter_architecture_template/data/models/github/release_model.dart';
+<span class="lineNum">       6 </span>            : import 'package:flutter_architecture_template/domain/entities/github/release.dart';
+<span class="lineNum">       7 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : @prod
+<span class="lineNum">      10 </span>            : @lazySingleton
+<span class="lineNum">      11 </span>            : @injectable
+<span class="lineNum">      12 </span>            : class GithubReleaseMapper implements Mapper&lt;GithubRelease, GithubReleaseModel&gt; {
+<span class="lineNum">      13 </span>            :   final GithubUserMapper userMapper;
+<span class="lineNum">      14 </span>            :   final GithubAssetMapper assetMapper;
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span><span class="lineCov">          1 :   const GithubReleaseMapper({</span>
+<span class="lineNum">      17 </span>            :     @required this.userMapper,
+<span class="lineNum">      18 </span>            :     @required this.assetMapper,
+<span class="lineNum">      19 </span>            :   });
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">      22 </span>            :   GithubReleaseModel mapFrom(GithubRelease entity) {
+<span class="lineNum">      23 </span><span class="lineCov">          1 :     return GithubReleaseModel(</span>
+<span class="lineNum">      24 </span><span class="lineCov">          1 :       url: entity.url,</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :       html_url: entity.html_url,</span>
+<span class="lineNum">      26 </span><span class="lineCov">          1 :       assets_url: entity.assets_url,</span>
+<span class="lineNum">      27 </span><span class="lineCov">          1 :       upload_url: entity.upload_url,</span>
+<span class="lineNum">      28 </span><span class="lineCov">          1 :       tarball_url: entity.tarball_url,</span>
+<span class="lineNum">      29 </span><span class="lineCov">          1 :       zipball_url: entity.zipball_url,</span>
+<span class="lineNum">      30 </span><span class="lineCov">          1 :       id: entity.id,</span>
+<span class="lineNum">      31 </span><span class="lineCov">          1 :       node_id: entity.node_id,</span>
+<span class="lineNum">      32 </span><span class="lineCov">          1 :       tag_name: entity.tag_name,</span>
+<span class="lineNum">      33 </span><span class="lineCov">          1 :       target_commitish: entity.target_commitish,</span>
+<span class="lineNum">      34 </span><span class="lineCov">          1 :       name: entity.name,</span>
+<span class="lineNum">      35 </span><span class="lineCov">          1 :       body: entity.body,</span>
+<span class="lineNum">      36 </span><span class="lineCov">          1 :       draft: entity.draft,</span>
+<span class="lineNum">      37 </span><span class="lineCov">          1 :       prerelease: entity.prerelease,</span>
+<span class="lineNum">      38 </span><span class="lineCov">          1 :       created_at: entity.created_at,</span>
+<span class="lineNum">      39 </span><span class="lineCov">          1 :       published_at: entity.published_at,</span>
+<span class="lineNum">      40 </span><span class="lineCov">          3 :       author: userMapper.mapFrom(entity.author),</span>
+<span class="lineNum">      41 </span><span class="lineCov">          5 :       assets: entity.assets.map(assetMapper.mapFrom).toList(),</span>
+<span class="lineNum">      42 </span>            :     );
+<span class="lineNum">      43 </span>            :   }
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">      46 </span>            :   GithubRelease mapTo(GithubReleaseModel model) {
+<span class="lineNum">      47 </span><span class="lineCov">          1 :     return GithubRelease(</span>
+<span class="lineNum">      48 </span><span class="lineCov">          1 :       url: model.url,</span>
+<span class="lineNum">      49 </span><span class="lineCov">          1 :       html_url: model.html_url,</span>
+<span class="lineNum">      50 </span><span class="lineCov">          1 :       assets_url: model.assets_url,</span>
+<span class="lineNum">      51 </span><span class="lineCov">          1 :       upload_url: model.upload_url,</span>
+<span class="lineNum">      52 </span><span class="lineCov">          1 :       tarball_url: model.tarball_url,</span>
+<span class="lineNum">      53 </span><span class="lineCov">          1 :       zipball_url: model.zipball_url,</span>
+<span class="lineNum">      54 </span><span class="lineCov">          1 :       id: model.id,</span>
+<span class="lineNum">      55 </span><span class="lineCov">          1 :       node_id: model.node_id,</span>
+<span class="lineNum">      56 </span><span class="lineCov">          1 :       tag_name: model.tag_name,</span>
+<span class="lineNum">      57 </span><span class="lineCov">          1 :       target_commitish: model.target_commitish,</span>
+<span class="lineNum">      58 </span><span class="lineCov">          1 :       name: model.name,</span>
+<span class="lineNum">      59 </span><span class="lineCov">          1 :       body: model.body,</span>
+<span class="lineNum">      60 </span><span class="lineCov">          1 :       draft: model.draft,</span>
+<span class="lineNum">      61 </span><span class="lineCov">          1 :       prerelease: model.prerelease,</span>
+<span class="lineNum">      62 </span><span class="lineCov">          1 :       created_at: model.created_at,</span>
+<span class="lineNum">      63 </span><span class="lineCov">          1 :       published_at: model.published_at,</span>
+<span class="lineNum">      64 </span><span class="lineCov">          3 :       author: userMapper.mapTo(model.author),</span>
+<span class="lineNum">      65 </span><span class="lineCov">          5 :       assets: model.assets.map(assetMapper.mapTo).toList(),</span>
+<span class="lineNum">      66 </span>            :     );
+<span class="lineNum">      67 </span>            :   }
+<span class="lineNum">      68 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

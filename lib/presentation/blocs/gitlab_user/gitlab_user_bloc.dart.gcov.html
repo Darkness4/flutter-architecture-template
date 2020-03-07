@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/presentation/blocs/gitlab_user/gitlab_user_bloc.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/presentation/blocs/gitlab_user</a> - gitlab_user_bloc.dart<span style="font-size: 80%;"> (source / <a href="gitlab_user_bloc.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-03-07 19:02:20</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'dart:async';</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : import 'package:bloc/bloc.dart';
+<span class="lineNum">       4 </span>            : import 'package:equatable/equatable.dart';
+<span class="lineNum">       5 </span>            : import 'package:flutter/foundation.dart';
+<span class="lineNum">       6 </span>            : import 'package:flutter_architecture_template/domain/entities/gitlab_user.dart';
+<span class="lineNum">       7 </span>            : import 'package:flutter_architecture_template/domain/usecases/get_gitlab_user.dart';
+<span class="lineNum">       8 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : part 'gitlab_user_event.dart';
+<span class="lineNum">      11 </span>            : part 'gitlab_user_state.dart';
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : @prod
+<span class="lineNum">      14 </span>            : @injectable
+<span class="lineNum">      15 </span>            : class GitlabUserBloc extends Bloc&lt;GitlabUserEvent, GitlabUserState&gt; {
+<span class="lineNum">      16 </span>            :   final GetGitlabUser getGitlabUser;
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span><span class="lineNoCov">          0 :   GitlabUserBloc({</span>
+<span class="lineNum">      19 </span>            :     @required this.getGitlabUser,
+<span class="lineNum">      20 </span><span class="lineNoCov">          0 :   }) : assert(getGitlabUser != null);</span>
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      23 </span><span class="lineNoCov">          0 :   GitlabUserState get initialState =&gt; GitlabUserStateInitial();</span>
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            :   @override
+<span class="lineNum">      26 </span><span class="lineNoCov">          0 :   Stream&lt;GitlabUserState&gt; mapEventToState(</span>
+<span class="lineNum">      27 </span>            :     GitlabUserEvent event,
+<span class="lineNum">      28 </span>            :   ) async* {
+<span class="lineNum">      29 </span><span class="lineNoCov">          0 :     if (event is GitlabUserGet) {</span>
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 :       yield GitlabUserStateLoading();</span>
+<span class="lineNum">      31 </span>            :       try {
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :         final user = await getGitlabUser(event.username);</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         yield GitlabUserStateLoaded(user);</span>
+<span class="lineNum">      34 </span>            :       } catch (e) {
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :         yield GitlabUserStateError(e);</span>
+<span class="lineNum">      36 </span>            :       }
+<span class="lineNum">      37 </span>            :     }
+<span class="lineNum">      38 </span>            :   }
+<span class="lineNum">      39 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
